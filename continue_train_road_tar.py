@@ -15,4 +15,12 @@ from sklearn.preprocessing import StandardScaler
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-############################################ NETWORK BUILDING #############################
+############################################ NETWORK BUILDING ############################################
+def get_bilinear_filter(filter_shape, upscale_factor):
+    '''
+    Description :  Generates a filter than performs simple bilinear interpolation for a given upsacle_factor
+    
+    Arguments:
+        filter_shape -- [width, height, num_in_channels, num_out_channels] -> num_in_channels = num_out_channels
+        upscale_factor -- The number of times you want to scale the image.
+  
