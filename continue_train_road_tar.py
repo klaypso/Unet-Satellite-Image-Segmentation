@@ -23,4 +23,18 @@ def get_bilinear_filter(filter_shape, upscale_factor):
     Arguments:
         filter_shape -- [width, height, num_in_channels, num_out_channels] -> num_in_channels = num_out_channels
         upscale_factor -- The number of times you want to scale the image.
-  
+        
+    Returns :
+        weigths -- The populated bilinear filter
+    '''
+    
+    kernel_size = filter_shape[1]
+    
+    # Centre location of the filter for which value is calculated
+    if kernel_size % 2 == 1:
+        centre_location = upscale_factor - 1
+    else:
+        centre_location = upscale_factor - 0.5
+ 
+    bilinear = np.zeros([filter_shape[0], filter_shape[1]])
+    for x in range(f
