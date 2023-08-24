@@ -58,4 +58,16 @@ def variable_summaries_weights_biases(var):
 def variable_summaries_scalars(var):
   """Attach a lot of summaries to a Tensor (for TensorBoard visualization)."""
   with tf.name_scope('summaries'):
-    tf.summary.scalar('value
+    tf.summary.scalar('value',var)
+
+def create_placeholders(n_H0,n_W0,n_C0):
+    """
+    Creates the placeholders for the input size and for the number of output classes.
+    
+    Arguments:
+    n_W0 -- scalar, width of an input matrix
+    n_C0 -- scalar, number of channels of the input
+    n_y  -- scalar, number of classes
+        
+    Returns:
+    X -- placeholder for the data input, of shape [None, n_H0, n_W0, n_C0] and dtype "floa
