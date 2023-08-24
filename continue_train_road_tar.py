@@ -46,4 +46,16 @@ def get_bilinear_filter(filter_shape, upscale_factor):
     
     for k in range(filter_shape[3]):
         for i in range(filter_shape[2]):
-            weights[:,
+            weights[:, :, i, k] = bilinear
+        
+    return weights    
+
+def variable_summaries_weights_biases(var):
+  """Attach a lot of summaries to a Tensor (for TensorBoard visualization)."""
+  with tf.name_scope('summaries'):
+    tf.summary.histogram('histogram',var)
+
+def variable_summaries_scalars(var):
+  """Attach a lot of summaries to a Tensor (for TensorBoard visualization)."""
+  with tf.name_scope('summaries'):
+    tf.summary.scalar('value
