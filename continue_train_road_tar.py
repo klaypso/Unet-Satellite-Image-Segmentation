@@ -37,4 +37,13 @@ def get_bilinear_filter(filter_shape, upscale_factor):
         centre_location = upscale_factor - 0.5
  
     bilinear = np.zeros([filter_shape[0], filter_shape[1]])
-    for x in range(f
+    for x in range(filter_shape[0]):
+        for y in range(filter_shape[1]):
+            ##Interpolation Calculation
+            value = (1 - abs((x - centre_location)/ upscale_factor)) * (1 - abs((y - centre_location)/ upscale_factor))
+            bilinear[x, y] = value
+    weights = np.zeros(filter_shape)
+    
+    for k in range(filter_shape[3]):
+        for i in range(filter_shape[2]):
+            weights[:,
