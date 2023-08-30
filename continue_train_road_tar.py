@@ -70,4 +70,11 @@ def create_placeholders(n_H0,n_W0,n_C0):
     n_y  -- scalar, number of classes
         
     Returns:
-    X -- placeholder for the data input, of shape [None, n_H0, n_W0, n_C0] and dtype "floa
+    X -- placeholder for the data input, of shape [None, n_H0, n_W0, n_C0] and dtype "float"
+    Y -- placeholder for the input labels, of shape [None, n_y] and dtype "float"
+    """
+    
+    with tf.name_scope("Inputs") :
+        # Keep the number of examples as a variable (None) and the height of the matrix as variables (None)
+        X = tf.placeholder(dtype = tf.float32, shape = (None,n_H0,n_W0,n_C0), name = "X") 
+        Y = tf.placeholder(dtype = tf.float32, shape = (None,n_H0,n_W0,1), name = "Y")
