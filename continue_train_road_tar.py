@@ -78,3 +78,19 @@ def create_placeholders(n_H0,n_W0,n_C0):
         # Keep the number of examples as a variable (None) and the height of the matrix as variables (None)
         X = tf.placeholder(dtype = tf.float32, shape = (None,n_H0,n_W0,n_C0), name = "X") 
         Y = tf.placeholder(dtype = tf.float32, shape = (None,n_H0,n_W0,1), name = "Y")
+    
+    
+    return X,Y
+
+
+def initialize_parameters():
+    '''
+    Description:
+        Initialize weight parameters for the weight matrix.
+
+    Returns: 
+        weight_parameters - A dictionary containing all the weights of the neural network
+    '''
+    
+    left_1_1_conv = tf.get_variable(name = "Road_tar_left_1_1_conv",shape = (3,3,9,32),dtype = tf.float32,trainable = True)
+    left_1_1_conv_bi
