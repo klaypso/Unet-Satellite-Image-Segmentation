@@ -107,4 +107,8 @@ def initialize_parameters():
     left_3_1_conv = tf.get_variable(name = "Road_tar_left_3_1_conv",shape = (3,3,64,128),dtype = tf.float32,trainable = True)
     left_3_1_conv_bias = tf.get_variable(name = "Road_tar_left_3_1_conv_bias",shape = (128),dtype = tf.float32,trainable = True)
 
-    left_3_2_conv = tf.get_variable(name = "Road_tar_left_3_2_conv",shape = (3,
+    left_3_2_conv = tf.get_variable(name = "Road_tar_left_3_2_conv",shape = (3,3,128,128),dtype = tf.float32,trainable = True)
+    left_3_2_conv_bias = tf.get_variable(name = "Road_tar_left_3_2_conv_bias",shape = (128),dtype = tf.float32,trainable = True)
+    
+    left_4_1_conv = tf.get_variable(name = "Road_tar_left_4_1_conv",shape = (3,3,128,256),dtype = tf.float32,trainable = True)
+    left_4_1_conv_bias = tf.get_variable(name = "Road_tar_left_4_1_conv_bias"
