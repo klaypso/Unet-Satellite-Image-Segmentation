@@ -146,4 +146,9 @@ def initialize_parameters():
     right_2_2_conv = tf.get_variable(name = "Road_tar_right_2_2_conv",shape = (3,3,64,64),dtype = tf.float32,trainable = True)
     right_2_2_conv_bias = tf.get_variable(name = "Road_tar_right_2_2_conv_bias",shape = (64),dtype = tf.float32,trainable = True)
 
-    right_2_3_deconv = tf.get_variable(name = "Road_tar_r
+    right_2_3_deconv = tf.get_variable(name = "Road_tar_right_2_3_deconv",shape = (2,2,64,64),dtype = tf.float32,trainable = False)
+
+    right_1_1_conv = tf.get_variable(name = "Road_tar_right_1_1_conv",shape = (9,9,64+32,32),dtype = tf.float32,trainable = True)
+    right_1_1_conv_bias = tf.get_variable(name = "Road_tar_right_1_1_conv_bias",shape = (32),dtype = tf.float32,trainable = True)
+    
+    right_1_2_conv = tf.get_variable(na
