@@ -231,4 +231,15 @@ def forward_prop(X,weight_parameters,bool_train = True) :
         X                 -- np.array
                              The input matrix
         weight_parameters -- dict.
-                             The initialized weights for t
+                             The initialized weights for the matrix
+        bool_train        -- Bool.
+                             An argument passed to the batch normalization parameter, to allow the updation of batch mean and variance
+
+    Returns :
+        conv18 -- The final feature vector
+    '''
+    
+    left_1_1_conv = weight_parameters["left_1_1_conv"] 
+    left_1_2_conv = weight_parameters["left_1_2_conv"]
+    
+    left_2_1_conv = weight_paramete
