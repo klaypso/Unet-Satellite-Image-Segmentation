@@ -205,4 +205,15 @@ def initialize_parameters():
     weight_parameters["right_3_3_deconv"] = right_3_3_deconv
     
     weight_parameters["right_2_1_conv"] = right_2_1_conv
-    weight_parameters["right_2_1_conv_bias"] = right_
+    weight_parameters["right_2_1_conv_bias"] = right_2_1_conv_bias
+    
+    weight_parameters["right_2_2_conv"] = right_2_2_conv
+    weight_parameters["right_2_2_conv_bias"] = right_2_2_conv_bias    
+    
+    weight_parameters["right_2_3_deconv"] = right_2_3_deconv
+     
+    weight_parameters["right_1_1_conv"] = right_1_1_conv
+    weight_parameters["right_1_1_conv_bias"] = right_1_1_conv_bias
+
+    weight_parameters["right_1_2_conv"] = right_1_2_conv
+    weight_parameters["right_1_2_c
