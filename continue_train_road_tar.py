@@ -216,4 +216,19 @@ def initialize_parameters():
     weight_parameters["right_1_1_conv_bias"] = right_1_1_conv_bias
 
     weight_parameters["right_1_2_conv"] = right_1_2_conv
-    weight_parameters["right_1_2_c
+    weight_parameters["right_1_2_conv_bias"] = right_1_2_conv_bias
+     
+    return weight_parameters
+
+
+def forward_prop(X,weight_parameters,bool_train = True) : 
+    
+    '''
+    Description :
+        Performs the forward propagation in the network.
+        
+    Arguments :
+        X                 -- np.array
+                             The input matrix
+        weight_parameters -- dict.
+                             The initialized weights for t
