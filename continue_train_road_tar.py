@@ -263,4 +263,13 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     left_3_1_conv_bias = weight_parameters["left_3_1_conv_bias"]
     left_3_2_conv_bias = weight_parameters["left_3_2_conv_bias"]
     
-    left_4_1_conv_bias = weight_parameters[
+    left_4_1_conv_bias = weight_parameters["left_4_1_conv_bias"]
+    left_4_2_conv_bias = weight_parameters["left_4_2_conv_bias"]
+    
+    centre_5_1_conv_bias = weight_parameters["centre_5_1_conv_bias"]
+    centre_5_2_conv_bias = weight_parameters["centre_5_2_conv_bias"]
+
+    centre_5_3_deconv = weight_parameters["centre_5_3_deconv"]
+
+    right_4_1_conv = weight_parameters["right_4_1_conv"] 
+    right_4_1_conv_bias = weight_parameters["right_4_1_con
