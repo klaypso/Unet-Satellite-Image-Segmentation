@@ -293,4 +293,16 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     right_2_2_conv = weight_parameters["right_2_2_conv"] 
     right_2_2_conv_bias = weight_parameters["right_2_2_conv_bias"]   
     
-    right_2_3_deconv = weight_parameters["
+    right_2_3_deconv = weight_parameters["right_2_3_deconv"]
+     
+    right_1_1_conv = weight_parameters["right_1_1_conv"] 
+    right_1_1_conv_bias = weight_parameters["right_1_1_conv_bias"] 
+
+    right_1_2_conv = weight_parameters["right_1_2_conv"] 
+    right_1_2_conv_bias = weight_parameters["right_1_2_conv_bias"] 
+
+
+    ### Left Branch 1st Layer ###
+    
+    
+    ## INTERESTING -- TENSORFLOW DOES A BAD JOB WHEN WE WANT TO PAD AN EVEN INPUT WITH AN ODD KERNEL ##    
