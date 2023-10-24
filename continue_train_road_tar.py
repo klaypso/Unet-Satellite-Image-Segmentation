@@ -343,4 +343,13 @@ def forward_prop(X,weight_parameters,bool_train = True) :
         with tf.name_scope("Conv_2") :
             conv4 = tf.nn.conv2d(tf.pad(conv3,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),left_2_2_conv, (1,3,3,1), padding = 'VALID',name = "convolve")
             conv4 = tf.nn.bias_add(conv4,left_2_2_conv_bias,name = "bias_add")
-            conv4 = tf.layers.batch_normalization(conv4,training = bool_train,name = "norm
+            conv4 = tf.layers.batch_normalization(conv4,training = bool_train,name = "norm_4")
+            conv4 =  tf.nn.leaky_relu(conv4,name = "activation")
+            variable_summaries_weights_biases(left_2_2_conv)
+            variable_summaries_weights_biases(left_2_2_conv_bias)
+
+        with tf.name_scope("Pool") :
+            max_pool_2 = tf.nn.max_pool(conv4,ksize = (1,2,2,1),strides = (1,2,2,1),padding = "VALID",name = "max_pool")
+
+    
+    ### Left Branch 3rd layer ###
