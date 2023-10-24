@@ -353,3 +353,10 @@ def forward_prop(X,weight_parameters,bool_train = True) :
 
     
     ### Left Branch 3rd layer ###
+    
+    with tf.name_scope("Left_Branch_3rd_Layer") :
+    
+        with tf.name_scope("Conv_1") :
+            conv5 = tf.nn.conv2d(tf.pad(max_pool_2,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),left_3_1_conv, (1,3,3,1), padding = 'VALID',name = "convolve")
+            conv5 = tf.nn.bias_add(conv5,left_3_1_conv_bias,name = "bias_add")
+            conv5 = tf.layers.batch_normalization(conv5,training = bool_train,name = "nor
