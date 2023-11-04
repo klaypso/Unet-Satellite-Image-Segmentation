@@ -372,4 +372,12 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             variable_summaries_weights_biases(left_3_2_conv)
             variable_summaries_weights_biases(left_3_2_conv_bias)
 
+        with tf.name_scope("Pool") :
+            max_pool_3 = tf.nn.max_pool(conv6,ksize = (1,2,2,1),strides = (1,2,2,1),padding = "VALID",name = "max_pool")
     
+    ### Left Branch 4th layer ###
+    
+    with tf.name_scope("Left_Branch_4th_Layer"):
+        
+        with tf.name_scope("Conv_1") :
+            conv7 = tf.nn.conv2d(tf.pad(max_pool_3,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),left_4_1_conv,(1,3,3,1),paddin
