@@ -380,4 +380,10 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     with tf.name_scope("Left_Branch_4th_Layer"):
         
         with tf.name_scope("Conv_1") :
-            conv7 = tf.nn.conv2d(tf.pad(max_pool_3,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),left_4_1_conv,(1,3,3,1),paddin
+            conv7 = tf.nn.conv2d(tf.pad(max_pool_3,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),left_4_1_conv,(1,3,3,1),padding = "VALID",name = "convolve")
+            conv7 = tf.nn.bias_add(conv7,left_4_1_conv_bias,name = "bias_add")
+            conv7 = tf.layers.batch_normalization(conv7,training = bool_train,name = "norm_7")
+            conv7 =  tf.nn.leaky_relu(conv7,name = "activation")
+            variable_summaries_weights_biases(left_4_1_conv)
+            variable_summaries_weights_biases(left_4_1_conv_bias)
+ 
