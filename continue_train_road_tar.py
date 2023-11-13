@@ -391,4 +391,15 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             conv8 = tf.nn.conv2d(tf.pad(conv7,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),left_4_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
             conv8 = tf.nn.bias_add(conv8,left_4_2_conv_bias,name = "bias_add")
             conv8 = tf.layers.batch_normalization(conv8,training = bool_train,name = "norm_8")
-            conv8 =  tf
+            conv8 =  tf.nn.leaky_relu(conv8,name = "activation")
+            variable_summaries_weights_biases(left_4_2_conv)
+            variable_summaries_weights_biases(left_4_2_conv_bias)
+
+        with tf.name_scope("Pool") :
+            max_pool_4 = tf.nn.max_pool(conv8,ksize = (1,2,2,1),strides = (1,2,2,1),padding = "VALID",name = "max_pool")
+    
+    
+    ### Centre Branch ###
+    
+    with tf.name_scope("Centre_Branch"):
+        
