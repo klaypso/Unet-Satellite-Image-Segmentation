@@ -403,3 +403,9 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     
     with tf.name_scope("Centre_Branch"):
         
+        with tf.name_scope("Conv_1") :
+            
+            conv9 = tf.nn.conv2d(tf.pad(max_pool_4,paddings = [[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC'),centre_5_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv9 = tf.nn.bias_add(conv9,centre_5_1_conv_bias,name = "bias_add")
+            conv9 = tf.layers.batch_normalization(conv9,training = bool_train,name = "norm_9")
+            c
