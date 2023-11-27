@@ -454,4 +454,7 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             variable_summaries_weights_biases(right_4_2_conv)
             variable_summaries_weights_biases(right_4_2_conv_bias)
 
-            conv12_obj = convolution(conv11.shape[1],conv11.shape[2],conv11.shape[3],righ
+            conv12_obj = convolution(conv11.shape[1],conv11.shape[2],conv11.shape[3],right_4_2_conv.shape[0],right_4_2_conv.shape[1],right_4_2_conv.shape[3],3,3,conv11.shape[1],conv11.shape[2])                
+            de_conv12_obj = trans_convolve(None,True,conv12_obj.output_h,conv12_obj.output_w,conv12_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 256,stride_h = 2,stride_w = 2,padding = 'VALID')   
+    
+        with tf.name_scope("Deconvolve") :  
