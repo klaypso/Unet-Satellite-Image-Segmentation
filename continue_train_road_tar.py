@@ -457,4 +457,12 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             conv12_obj = convolution(conv11.shape[1],conv11.shape[2],conv11.shape[3],right_4_2_conv.shape[0],right_4_2_conv.shape[1],right_4_2_conv.shape[3],3,3,conv11.shape[1],conv11.shape[2])                
             de_conv12_obj = trans_convolve(None,True,conv12_obj.output_h,conv12_obj.output_w,conv12_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 256,stride_h = 2,stride_w = 2,padding = 'VALID')   
     
-        with tf.name_scope("Deconvolve") :  
+        with tf.name_scope("Deconvolve") :    
+            de_conv12 = tf.nn.conv2d_transpose(conv12,right_4_3_deconv,output_shape = (tf.shape(X)[0],de_conv12_obj.output_h,de_conv12_obj.output_w,de_conv12_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
+            variable_summaries_weights_biases(right_4_3_deconv)
+    
+    ### Right Branch 3rd layer ###
+    
+    with tf.name_scope("Merging") :
+    
+        merge2 = tf.concat([de_conv12,conv6],axis = 3,na
