@@ -465,4 +465,12 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     
     with tf.name_scope("Merging") :
     
-        merge2 = tf.concat([de_conv12,conv6],axis = 3,na
+        merge2 = tf.concat([de_conv12,conv6],axis = 3,name = "merge")
+    
+    with tf.name_scope("Right_Branch_3rd_Layer"):
+        
+        with tf.name_scope("Conv_1") :
+            
+            conv13 = tf.nn.conv2d(tf.pad(merge2,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),right_3_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv13 = tf.nn.bias_add(conv13,right_3_1_conv_bias,name = "bias_add")
+            co
