@@ -521,4 +521,17 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             de_conv16_obj = trans_convolve(None,True,conv16_obj.output_h,conv16_obj.output_w,conv16_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 64,stride_h = 2,stride_w = 2,padding = 'VALID')    
            
         with tf.name_scope("Deconvolve") :
-            de_conv16 = tf.nn.conv2d_transpose(conv16,right_2_3_deconv,output_shape = (tf.shape(X)[0],de_conv16_obj.output_h,de_conv16_obj.output_w,de_conv16_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name =
+            de_conv16 = tf.nn.conv2d_transpose(conv16,right_2_3_deconv,output_shape = (tf.shape(X)[0],de_conv16_obj.output_h,de_conv16_obj.output_w,de_conv16_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv") 
+            variable_summaries_weights_biases(right_2_3_deconv)
+                    
+    ### Right Branch 1st layer ###
+
+    with tf.name_scope("Merging") :
+        conv2 = tf.pad(conv2,paddings=[[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC')
+        merge4 = tf.concat([de_conv16,conv2], axis = 3,name = "merge")
+
+
+    with tf.name_scope("Right_Branch_1st_Layer"):
+
+        with tf.name_scope("Conv1") : 
+        
