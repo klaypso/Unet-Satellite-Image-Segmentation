@@ -534,4 +534,8 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     with tf.name_scope("Right_Branch_1st_Layer"):
 
         with tf.name_scope("Conv1") : 
-        
+            conv17 = tf.nn.conv2d(merge4,right_1_1_conv,(1,1,1,1),padding = 'VALID',name = "convolve")
+            conv17 = tf.nn.bias_add(conv17,right_1_1_conv_bias,name = "bias_add")  
+            conv17 = tf.layers.batch_normalization(conv17,training = bool_train,name = "norm_17")
+            conv17 = tf.nn.leaky_relu(conv17,name = "activation")
+            variable_summaries_weights_biases(right_1_1_conv
