@@ -518,4 +518,7 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             variable_summaries_weights_biases(right_2_2_conv_bias)
 
             conv16_obj = convolution(conv15.shape[1],conv15.shape[2],conv15.shape[3],right_2_2_conv.shape[0],right_2_2_conv.shape[1],right_2_2_conv.shape[3],3,3,conv15.shape[1],conv15.shape[2])                    
-            de_conv16_obj 
+            de_conv16_obj = trans_convolve(None,True,conv16_obj.output_h,conv16_obj.output_w,conv16_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 64,stride_h = 2,stride_w = 2,padding = 'VALID')    
+           
+        with tf.name_scope("Deconvolve") :
+            de_conv16 = tf.nn.conv2d_transpose(conv16,right_2_3_deconv,output_shape = (tf.shape(X)[0],de_conv16_obj.output_h,de_conv16_obj.output_w,de_conv16_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name =
