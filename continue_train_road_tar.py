@@ -487,4 +487,10 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             variable_summaries_weights_biases(right_3_2_conv)
             variable_summaries_weights_biases(right_3_2_conv_bias)
             conv14_obj = convolution(conv13.shape[1],conv13.shape[2],conv13.shape[3],right_3_2_conv.shape[0],right_3_2_conv.shape[1],right_3_2_conv.shape[3],3,3,conv13.shape[1],conv13.shape[2])                
-            de_conv14_obj = trans_convolve(None,True,conv14_obj.output_h,conv14_obj.output_w,conv14_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 128,stride_h = 2,stride_w = 2,pad
+            de_conv14_obj = trans_convolve(None,True,conv14_obj.output_h,conv14_obj.output_w,conv14_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 128,stride_h = 2,stride_w = 2,padding = 'VALID')
+        
+        with tf.name_scope("Deconvolve") :    
+            de_conv14 = tf.nn.conv2d_transpose(conv14,right_3_3_deconv,output_shape = (tf.shape(X)[0],de_conv14_obj.output_h,de_conv14_obj.output_w,de_conv14_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
+            variable_summaries_weights_biases(right_3_3_deconv)    
+    
+    ### Right Bra
