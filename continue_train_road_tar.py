@@ -493,4 +493,14 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             de_conv14 = tf.nn.conv2d_transpose(conv14,right_3_3_deconv,output_shape = (tf.shape(X)[0],de_conv14_obj.output_h,de_conv14_obj.output_w,de_conv14_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
             variable_summaries_weights_biases(right_3_3_deconv)    
     
-    ### Right Bra
+    ### Right Branch 2nd layer ###
+    
+    with tf.name_scope("Merging") :
+        
+        merge3 = tf.concat([de_conv14,conv4],axis = 3,name = "merge")
+    
+    with tf.name_scope("Right_Branch_2nd_Layer"):
+  
+        with tf.name_scope("Conv_1") :     
+            conv15 = tf.nn.conv2d(tf.pad(merge3,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),right_2_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            co
