@@ -513,4 +513,9 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             conv16 = tf.nn.conv2d(tf.pad(conv15,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),right_2_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
             conv16 = tf.nn.bias_add(conv16,right_2_2_conv_bias,name = "bias_add")
             conv16 = tf.layers.batch_normalization(conv16,training = bool_train,name = "norm_16")
-            conv16 = tf.nn.leaky_relu(c
+            conv16 = tf.nn.leaky_relu(conv16,name = "activation")
+            variable_summaries_weights_biases(right_2_2_conv)
+            variable_summaries_weights_biases(right_2_2_conv_bias)
+
+            conv16_obj = convolution(conv15.shape[1],conv15.shape[2],conv15.shape[3],right_2_2_conv.shape[0],right_2_2_conv.shape[1],right_2_2_conv.shape[3],3,3,conv15.shape[1],conv15.shape[2])                    
+            de_conv16_obj 
