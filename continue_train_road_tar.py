@@ -566,4 +566,20 @@ def compute_jaccard_cost(Y,Z3,batch_size) :
         Z3         -- np.array.
                       The ouput vector from the forward propagation.
         batch_size -- Int.
-           
+                      The number of images in a mini-batch.
+
+    Returns :
+        Jaccard      -- np.array.
+                        Contains the jaccard values for each input image
+        Jaccard_loss -- np.array.
+                        Contains the jaccard loss for each input image.
+    '''
+    
+    with tf.name_scope("Costs") :
+        
+        with tf.name_scope("Jaccard_Loss") :
+
+            # Intersection
+            nr = tf.multiply(Y,Z3)
+
+        
