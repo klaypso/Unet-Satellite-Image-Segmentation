@@ -582,4 +582,14 @@ def compute_jaccard_cost(Y,Z3,batch_size) :
             # Intersection
             nr = tf.multiply(Y,Z3)
 
+            # Union
+            dr = Y + Z3 -nr
+
+            # Jaccard = Intersection/Union
+            Jaccard = tf.divide( tf.reshape(tf.reduce_sum(nr,axis = [1,2,3]),shape = (batch_size,1)) , tf.reshape(tf.reduce_sum(dr,axis = [1,2,3] ),shape = (batch_size,1)) )
+            
+            Jaccard_loss = -tf.log(Jaccard)
+            
+            variable_summaries_weights_biases(Jaccard)
         
+            return Jaccard,Jaccard
