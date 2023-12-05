@@ -654,4 +654,12 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
             for i in range(1500) :
                 
                 
-                w
+                with open("./Data_training/Road/train" + "_" + str(i) + "_" + ".pkl","rb") as f :
+                    X_input = pickle.load(f)
+                
+                with open("./Data_training/Road/test" + "_" + str(i) + "_" + ".pkl","rb") as f :
+                    Y_input = pickle.load(f)
+
+                if X_input is None or Y_input is None :
+                    print("Something is wrong")
+                    return Non
