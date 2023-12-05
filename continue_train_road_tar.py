@@ -669,4 +669,17 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
                 if ((epoch%1 == 0) and (counting == 1499)):
                     _,batch_jaccard,summary = sess.run([optimizer,Jaccard,merged], feed_dict = {X:X_input[:,:,:,0:9],Y:Y_input})                
                 else:
-                    _,batch_jaccard,learning_rate_val = sess.run([optimizer,Jaccard,learnin
+                    _,batch_jaccard,learning_rate_val = sess.run([optimizer,Jaccard,learning_rate], feed_dict = {X:X_input[:,:,:,0:9],Y:Y_input})
+                                
+                X_input = None
+                Y_input = None
+                
+                jaccards += np.sum(batch_jaccard)/batch_size
+                
+                counting += 1
+                
+            print(jaccards/1500)
+            print(learning_rate_val)
+            
+            jaccard_list.append(jaccards/1500)
+     
