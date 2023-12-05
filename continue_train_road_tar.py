@@ -556,4 +556,14 @@ def forward_prop(X,weight_parameters,bool_train = True) :
 def compute_jaccard_cost(Y,Z3,batch_size) :
     ''' Computes the Jaccard Index and the Jaccard Cost.
 
-  
+    Description :
+        The normal Jaccard index is non-differentiable. This function is an approximation to this index
+        that makes this index differentiable.
+
+    Arguments :
+        Y          -- np.array.
+                      Ground truth values of the mini-batch.
+        Z3         -- np.array.
+                      The ouput vector from the forward propagation.
+        batch_size -- Int.
+           
