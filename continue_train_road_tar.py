@@ -592,4 +592,16 @@ def compute_jaccard_cost(Y,Z3,batch_size) :
             
             variable_summaries_weights_biases(Jaccard)
         
-            return Jaccard,Jaccard
+            return Jaccard,Jaccard_loss
+        
+
+############################################ NETWORK BUILDING ############################################
+
+############################################# MODEL BUILDING #############################################
+
+def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs = 100,batch_size = 16):
+
+    # Tensorflow Graph
+    X,Y = create_placeholders(img_rows,img_cols,num_channels)
+    
+    parame
