@@ -604,4 +604,16 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
     # Tensorflow Graph
     X,Y = create_placeholders(img_rows,img_cols,num_channels)
     
-    parame
+    parameters = initialize_parameters()
+    
+    Z3 = forward_prop(X,parameters,bool_train = True)
+    
+    Jaccard,Jaccard_loss = compute_jaccard_cost(Y,Z3,batch_size)
+
+    global_step = tf.Variable(0, trainable=False)
+    starter_learning_rate = learning
+
+    learning_rate = tf.train.exponential_decay(starter_learning_rate,global_step,10000,decay_rate = 1)
+
+    update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+    with tf.contr
