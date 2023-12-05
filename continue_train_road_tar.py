@@ -626,4 +626,15 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
     # Creating the saving object 
     saver = tf.train.Saver(max_to_keep = 10000,var_list = tf.global_variables())
     
-    merged = tf.summar
+    merged = tf.summary.merge_all()
+    with tf.Session() as sess:
+
+        train_writer = tf.summary.FileWriter("Summaries/Road_tar",sess.graph)
+        
+        sess.run(init)                
+        
+        path = os.path.join(os.getcwd(),"Parameters/Road_tar")
+        ckpt = tf.train.get_checkpoint_state(path)
+            
+        if ckpt and ckpt.model_checkpoint_path:
+            print("Restoration of parameters of model with code_strin
