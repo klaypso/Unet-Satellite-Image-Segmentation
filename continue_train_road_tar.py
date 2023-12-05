@@ -616,4 +616,14 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
     learning_rate = tf.train.exponential_decay(starter_learning_rate,global_step,10000,decay_rate = 1)
 
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-    with tf.contr
+    with tf.control_dependencies(update_ops):
+        with tf.name_scope("Optimizer") :
+            optimizer = tf.train.AdamOptimizer(learning_rate).minimize(Jaccard_loss,global_step=global_step,name = "Adam")
+    # Tensorflow Graph
+    
+    init = tf.global_variables_initializer()
+        
+    # Creating the saving object 
+    saver = tf.train.Saver(max_to_keep = 10000,var_list = tf.global_variables())
+    
+    merged = tf.summar
