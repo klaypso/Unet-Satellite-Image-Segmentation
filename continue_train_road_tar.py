@@ -637,4 +637,21 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
         ckpt = tf.train.get_checkpoint_state(path)
             
         if ckpt and ckpt.model_checkpoint_path:
-            print("Restoration of parameters of model with code_strin
+            print("Restoration of parameters of model with code_string Road_tar has been successfull")
+            saver.restore(sess,ckpt.model_checkpoint_path)
+
+
+        jaccard_list = []
+        epoch_list = []
+                
+        for epoch in range(epoch_num,num_epochs) :
+        
+            print("Epoch Number : " + str(epoch))
+            
+            jaccards  = 0
+            
+            counting = 0
+            for i in range(1500) :
+                
+                
+                w
