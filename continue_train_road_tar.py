@@ -662,4 +662,11 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
 
                 if X_input is None or Y_input is None :
                     print("Something is wrong")
-                    return Non
+                    return None
+
+                X_input = X_input/2047
+                
+                if ((epoch%1 == 0) and (counting == 1499)):
+                    _,batch_jaccard,summary = sess.run([optimizer,Jaccard,merged], feed_dict = {X:X_input[:,:,:,0:9],Y:Y_input})                
+                else:
+                    _,batch_jaccard,learning_rate_val = sess.run([optimizer,Jaccard,learnin
