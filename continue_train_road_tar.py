@@ -545,4 +545,15 @@ def forward_prop(X,weight_parameters,bool_train = True) :
         with tf.name_scope("Conv2"):
             conv18 = tf.nn.conv2d(conv17,right_1_2_conv,(1,1,1,1),padding='VALID',name="convolve")
             conv18 = tf.nn.bias_add(conv18,right_1_2_conv_bias,name = "bias_add")
-            conv18 = tf.layers.batch_normalization(conv18,training = bool
+            conv18 = tf.layers.batch_normalization(conv18,training = bool_train,name = "norm_18")
+            conv18 = tf.sigmoid(conv18,name="activation")
+            variable_summaries_weights_biases(right_1_2_conv)
+            variable_summaries_weights_biases(right_1_2_conv_bias)            
+            assert(conv18.shape[1:] == [112,112,1])            
+        
+    return conv18
+
+def compute_jaccard_cost(Y,Z3,batch_size) :
+    ''' Computes the Jaccard Index and the Jaccard Cost.
+
+  
