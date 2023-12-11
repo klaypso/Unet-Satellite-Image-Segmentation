@@ -707,4 +707,27 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
         ax1.set_xlabel("Epochs")
         ax1.plot(epoch_list,jaccard_list)
         plt.show()
-        plt.
+        plt.close()
+        
+        
+############################################# MODEL BUILDING #############################################
+
+if __name__ == '__main__':
+
+    img_rows=112
+    img_cols=112
+    num_channels = 9
+    epoch_num = 18
+
+    model(epoch_num,img_rows,img_cols,num_channels)
+
+
+
+
+
+
+
+
+
+
+
