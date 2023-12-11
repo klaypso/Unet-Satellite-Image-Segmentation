@@ -695,4 +695,16 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
                     
                     highest_jaccard = jaccards
                 
-                    p
+                    path = os.path.join(os.getcwd(),'Parameters/Road_tar/track-model.ckpt')
+                    saver.save(sess,path,global_step=epoch)   
+        
+        train_writer.close()
+        
+        
+        fig = plt.figure()
+        ax1 = fig.add_subplot(111)
+        ax1.set_ylabel("Jaccard")
+        ax1.set_xlabel("Epochs")
+        ax1.plot(epoch_list,jaccard_list)
+        plt.show()
+        plt.
