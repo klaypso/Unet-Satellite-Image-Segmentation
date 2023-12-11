@@ -1,4 +1,25 @@
 name: sop_sarcasm
 channels:
   - kmdouglass
-  - m
+  - menpo
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - freeglut=2.8.1=0
+  - click-plugins=1.0.3=py36_0
+  - cligj=0.4.0=py36_0
+  - libwebp=0.5.2=7
+  - x264=20131218=0
+  - absl-py=0.2.2=py36_0
+  - affine=2.2.1=py36_0
+  - alabaster=0.7.11=py36_0
+  - asn1crypto=0.24.0=py36_0
+  - astor=0.6.2=py36_0
+  - astroid=1.6.5=py36_0
+  - attrs=18.1.0=py36_0
+  - babel=2.6.0=py36_0
+  - backcall=0.1.0=py36_0
+  - blas=1.0=mkl
+  - bleach=2.1.3=py36_0
+  - boost=1.6
