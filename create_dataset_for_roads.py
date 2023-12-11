@@ -512,3 +512,48 @@ if __name__ == '__main__' :
     num_channels = 14
     
     # mud roads
+    file_train_mud = ['6140_1_2','6120_2_2','6110_1_2','6070_2_3','6100_2_3']
+    
+    # tarred roads
+    for ids in file_train_mud : 
+        file_train.remove(ids)
+    
+    file_train_tar = file_train
+    
+    cover = 0.1
+    
+    for i in range(1500) :
+        X,Y = create_training_batch(file_train_tar,cover,batch_size,img_rows,img_cols,num_channels)
+        save_data(X,Y,i)
+        print(i)
+        
+    for k in range(1500,2000) : 
+        X,Y = create_training_batch(file_train_mud,cover,batch_size,img_rows,img_cols,num_channels)
+        save_data(X,Y,k)
+        print(k)        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
