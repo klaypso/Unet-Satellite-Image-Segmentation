@@ -682,4 +682,17 @@ def model(epoch_num,img_rows,img_cols,num_channels,learning = 0.001,num_epochs =
             print(learning_rate_val)
             
             jaccard_list.append(jaccards/1500)
-     
+            epoch_list.append(epoch)
+            
+            if epoch%epoch_num == 0:
+                highest_jaccard = jaccards 
+            
+            if epoch%1 == 0:
+                
+                train_writer.add_summary(summary,global_step = epoch)
+                
+                if highest_jaccard <= jaccards :
+                    
+                    highest_jaccard = jaccards
+                
+                    p
