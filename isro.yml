@@ -35,4 +35,18 @@ dependencies:
   - click=6.7=py36h5253387_0
   - cloudpickle=0.5.3=py36_0
   - cryptography=2.2.2=py36h14c3975_0
-  - curl=7.60.0=h84994c4_
+  - curl=7.60.0=h84994c4_0
+  - cycler=0.10.0=py36h93f1223_0
+  - dbus=1.13.2=h714fa37_1
+  - decorator=4.3.0=py36_0
+  - descartes=1.1.0=py36h2f9c1c0_0
+  - docutils=0.14=py36hb0f60f5_0
+  - entrypoints=0.2.3=py36h1aec115_2
+  - expat=2.2.5=he0dffb1_0
+  - ffmpeg=4.0=h04d0a96_0
+  - fontconfig=2.12.6=h49f89f6_0
+  - freetype=2.8=hab7d2ae_1
+  - freexl=1.0.5=h14c3975_0
+  - gast=0.2.0=py36_0
+  - gdal=2.2.2=py36hc209d97_1
+  - geos=3.6.2=heef
