@@ -156,4 +156,19 @@ dependencies:
   - pylint=1.9.2=py36_0
   - pyopengl=3.1.1a1=np112py36_0
   - pyopenssl=18.0.0=py36_0
-  - pyparsing=2.2.0=py36hee8598
+  - pyparsing=2.2.0=py36hee85983_1
+  - pyqt=5.9.2=py36h751905a_0
+  - pysocks=1.6.8=py36_0
+  - python=3.6.6=hc3d631a_0
+  - python-dateutil=2.7.3=py36_0
+  - pytz=2018.5=py36_0
+  - pyzmq=17.0.0=py36h14c3975_0
+  - qt=5.9.5=h7e424d6_0
+  - qtawesome=0.4.4=py36h609ed8c_0
+  - qtconsole=4.3.1=py36h8f73b5b_0
+  - qtpy=1.4.2=py36_0
+  - readline=7.0=ha6073c6_4
+  - requests=2.19.1=py36_0
+  - rope=0.10.7=py36h147e2ec_0
+  - s3transfer=0.1.13=py36_0
+  - scikit-
