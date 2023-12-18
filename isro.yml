@@ -200,4 +200,21 @@ dependencies:
   - werkzeug=0.14.1=py36_0
   - wheel=0.31.1=py36_0
   - wrapt=1.10.11=py36h28b7045_0
-  - x
+  - xerces-c=3.2.1=hac72e42_0
+  - xz=5.2.4=h14c3975_4
+  - zeromq=4.2.5=h439df22_0
+  - zlib=1.2.11=ha838bed_2
+  - tifffile=0.10.0=np112py36_0
+  - opencv3=3.1.0=py36_0
+  - pip:
+    - dask==0.18.0
+    - imgaug==0.2.6
+    - lesscpy==0.13.0
+    - networkx==2.1
+    - opencv-python==3.1.0.5
+    - pillow==5.1.0
+    - ply==3.11
+    - pywavelets==0.5.2
+    - scikit-image==0.14.0
+    - tensorboard==1.8.0
+ 
