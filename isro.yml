@@ -103,4 +103,17 @@ dependencies:
   - libopus=1.2.1=hb9ed12e_0
   - libpng=1.6.34=hb9fc6fc_0
   - libpq=10.3=h1ad7b7a_0
-  - libprotobuf=3
+  - libprotobuf=3.5.2=h6f1eeef_0
+  - libsodium=1.0.16=h1bed415_0
+  - libspatialite=4.3.0a=h72746d6_18
+  - libssh2=1.8.0=h9cfc8f7_4
+  - libstdcxx-ng=7.2.0=hdf63c60_3
+  - libtiff=4.0.9=he85c1e1_1
+  - libuuid=1.0.3=h1bed415_2
+  - libvpx=1.7.0=h439df22_0
+  - libxcb=1.13=h1bed415_1
+  - libxml2=2.9.8=h26e45fe_1
+  - markdown=2.6.11=py36_0
+  - markupsafe=1.0=py36hd9260cd_1
+  - matplotlib=2.2.2=py36h0e671d2_1
+  - mccabe=
