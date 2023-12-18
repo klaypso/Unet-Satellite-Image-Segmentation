@@ -185,4 +185,19 @@ dependencies:
   - sphinxcontrib=1.0=py36h6d0f590_1
   - sphinxcontrib-websupport=1.1.0=py36_1
   - spyder=3.2.8=py36_0
-  - sqlite
+  - sqlite=3.24.0=h84994c4_0
+  - termcolor=1.1.0=py36_1
+  - terminado=0.8.1=py36_1
+  - testpath=0.3.1=py36h8cadb63_0
+  - tk=8.6.7=hc745277_3
+  - tornado=5.0.2=py36_0
+  - traitlets=4.3.2=py36h674d592_0
+  - typing=3.6.4=py36_0
+  - urllib3=1.23=py36_0
+  - util-linux=2.21=0
+  - wcwidth=0.1.7=py36hdf4376a_0
+  - webencodings=0.5.1=py36h800622e_1
+  - werkzeug=0.14.1=py36_0
+  - wheel=0.31.1=py36_0
+  - wrapt=1.10.11=py36h28b7045_0
+  - x
