@@ -90,4 +90,15 @@ class mask_generator :
             polygonList -- 
 
         """
-        df_image = wkt_list_pandas[wkt_list_pandas.ImageId == imageI
+        df_image = wkt_list_pandas[wkt_list_pandas.ImageId == imageId]
+        multipoly_def = df_image[df_image.ClassType == cType].MultipolygonWKT
+        polygonList = None
+        if len(multipoly_def) > 0:
+            assert len(multipoly_def) == 1
+            polygonList = wkt_loads(multipoly_def.values[0])
+        return polygonList
+
+
+    def _get_and_convert_contours(self,polygonList, raster_img_size, xymax):
+        """
+       
