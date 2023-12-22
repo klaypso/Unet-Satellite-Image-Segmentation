@@ -109,4 +109,12 @@ class mask_generator :
         if polygonList is None:
             return None
         
-        for k in range(len(po
+        for k in range(len(polygonList)):
+                        
+            # Get the outer contours of the polygons and add to the perim_list
+            poly = polygonList[k]
+            perim = np.array(list(poly.exterior.coords))
+            perim_c = self._convert_coordinates_to_raster(perim, raster_img_size, xymax)
+            perim_list.append(perim_c)
+            
+            # For each polygon get the interior contours of the po
