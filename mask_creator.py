@@ -28,4 +28,22 @@ class mask_generator :
                             6 : 'Crops',
                             7 : 'Fast_H20',
                             8 : 'Slow_H20',
-                           
+                            9 : 'Truck',
+                            10 : 'Car',
+                        }
+        
+         
+
+    def _convert_coordinates_to_raster(self,coords, img_size, xymax):
+        """ Do the transformtions to the co-ordinates of the image - using the formula given.
+
+        Arguments :
+            coords --
+            img_size --
+            xymax --
+
+        Returns :
+            coords_int -- 
+
+        """
+        Xmax,Ymax = xymax
