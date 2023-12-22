@@ -62,4 +62,14 @@ class mask_generator :
         """ Returns the xmax and ymin of the photographs.
 
         Arguments : 
-          
+            grid_sizes_panda -- pandas.DataFrame Object
+                                The pandas dataframe with all the grid sizes for each image
+
+            imageId          -- str.
+                                The id of the image. ex. 6010_0_0.tif
+
+        Returns :
+            (xmax,ymin) -- tuple.
+                           The maximum x co-ordinate and the minimum y co-ordinate
+        """
+        xmax, ymin = g
