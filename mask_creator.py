@@ -47,3 +47,19 @@ class mask_generator :
 
         """
         Xmax,Ymax = xymax
+        H,W = img_size[0:2]
+                
+        W1 = 1.0*W*W/(W+1)
+        H1 = 1.0*H*H/(H+1)
+        xf = W1/Xmax
+        yf = H1/Ymax
+        coords[:,1] *= yf
+        coords[:,0] *= xf
+        coords_int = np.round(coords).astype(np.int32)
+        return coords_int
+
+    def _get_xmax_ymin(self,grid_sizes_panda, imageId):
+        """ Returns the xmax and ymin of the photographs.
+
+        Arguments : 
+          
