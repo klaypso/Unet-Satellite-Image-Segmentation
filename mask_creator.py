@@ -117,4 +117,13 @@ class mask_generator :
             perim_c = self._convert_coordinates_to_raster(perim, raster_img_size, xymax)
             perim_list.append(perim_c)
             
-            # For each polygon get the interior contours of the po
+            # For each polygon get the interior contours of the polygons and add to the interior_list
+            for pi in poly.interiors:
+                interior = np.array(list(pi.coords))
+                interior_c = self._convert_coordinates_to_raster(interior, raster_img_size, xymax)
+                interior_list.append(interior_c)
+                
+        return perim_list,interior_list
+
+
+    def _plot_mask_from_contours(self,raster_img_size, contours, cla
