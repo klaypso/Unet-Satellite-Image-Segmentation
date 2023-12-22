@@ -81,4 +81,13 @@ class mask_generator :
 
         Arguments :
             wkt_list_pandas -- pandas.DataFrame Object
-                               The pndas DataFrame with a
+                               The pndas DataFrame with all the shape files of the satellite image.
+            imageId         -- str.
+                               The id of the image. ex. 6010_0_0.tif
+            cType           -- str.
+                               The name of the class type. ex 'Bldg','Struct'
+        Returns :
+            polygonList -- 
+
+        """
+        df_image = wkt_list_pandas[wkt_list_pandas.ImageId == imageI
