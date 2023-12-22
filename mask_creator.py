@@ -72,4 +72,13 @@ class mask_generator :
             (xmax,ymin) -- tuple.
                            The maximum x co-ordinate and the minimum y co-ordinate
         """
-        xmax, ymin = g
+        xmax, ymin = grid_sizes_panda[grid_sizes_panda.ImageId == imageId].iloc[0,1:].astype(float)
+        return (xmax,ymin)
+
+
+    def _get_polygon_list(self,wkt_list_pandas, imageId, cType):
+        """ Gets the list of polygons that were created for class : "cType" in image with id : "imageId"
+
+        Arguments :
+            wkt_list_pandas -- pandas.DataFrame Object
+                               The pndas DataFrame with a
