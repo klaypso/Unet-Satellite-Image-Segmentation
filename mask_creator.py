@@ -137,4 +137,18 @@ class mask_generator :
         img_mask = np.zeros(raster_img_size,np.uint8)
         
         if contours is None:
- 
+            return img_mask
+        
+        # perim_list and interior_list
+        perim_list,interior_list = contours
+        
+        # fill 1 inside the boundaries of the perim list
+        cv2.fillPoly(img_mask,perim_list,class_value)
+        
+        # fill 0 inside the boundaries of the interior list
+        cv2.fillPoly(img_mask,interior_list,0)
+        
+        return img_mask
+
+
+    def genera
