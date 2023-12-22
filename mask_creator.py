@@ -101,4 +101,12 @@ class mask_generator :
 
     def _get_and_convert_contours(self,polygonList, raster_img_size, xymax):
         """
-       
+        Converts the co-ordindates of the polygons using the transformation rules that were stated.
+        It then returns two sets of co-ordinates - the outer contour of the polygons "perim-list", and the inner contour of the polygons "interior_list"
+        """
+        perim_list = []
+        interior_list = []
+        if polygonList is None:
+            return None
+        
+        for k in range(len(po
