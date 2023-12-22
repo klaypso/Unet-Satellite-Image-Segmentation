@@ -126,4 +126,15 @@ class mask_generator :
         return perim_list,interior_list
 
 
-    def _plot_mask_from_contours(self,raster_img_size, contours, cla
+    def _plot_mask_from_contours(self,raster_img_size, contours, class_value = 1):
+        """
+        Given the inner contour of the polygons and the outer contours of the polygons now plot the mask of polygons with 1 between
+        the region of the inner and outer contours and 0 otherwise.
+        
+        Hence this gives us a mask that highlights only the regions of interest
+        """
+        
+        img_mask = np.zeros(raster_img_size,np.uint8)
+        
+        if contours is None:
+ 
