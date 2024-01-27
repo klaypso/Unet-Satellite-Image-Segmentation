@@ -159,4 +159,18 @@ class mask_generator :
         
         polygon_list = self._get_polygon_list(wkt_list_pandas,imageId,class_type)
         
-        conto
+        contours = self._get_and_convert_contours(polygon_list,raster_size,xymax)
+        
+        mask = self._plot_mask_from_contours(raster_size,contours,1)
+        
+        return mask
+
+
+    def get_distinct_ids(self,df):
+        ''' Returns a list of distinct Ids which are sorted from the pandas dataframe. '''
+        ans = []
+        
+        for i in range(len(df)):
+            string = (df.iloc[i,0])
+            
+            if string not
