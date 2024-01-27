@@ -173,4 +173,21 @@ class mask_generator :
         for i in range(len(df)):
             string = (df.iloc[i,0])
             
-            if string not
+            if string not in ans:
+               ans.append(string) 
+               
+            
+        print("The are " + str(len(ans)) + " distinct ids." + str(df.head()))
+        
+        ans.sort()
+         
+        return ans
+    
+    def get_image_names(self,imageId):
+        '''
+        Get the names of the tiff files
+        '''
+        
+        inDir = os.getcwd()
+        
+        d = {'3': '{}/Data/pan_sharpened_images
