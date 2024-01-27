@@ -151,4 +151,12 @@ class mask_generator :
         return img_mask
 
 
-    def genera
+    def generate_mask_for_image_and_class(self,raster_size, imageId, class_type, grid_sizes_panda,wkt_list_pandas):
+        """
+        Generates the complete mask of the image given the "class_type" and "imageId".
+        """
+        xymax = self._get_xmax_ymin(grid_sizes_panda,imageId)
+        
+        polygon_list = self._get_polygon_list(wkt_list_pandas,imageId,class_type)
+        
+        conto
