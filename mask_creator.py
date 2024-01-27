@@ -202,4 +202,13 @@ class mask_generator :
         '''
         Load images correspoding to imageId
     
-        Para
+        Parameters
+        ----------
+        imageId : str
+            imageId as used in grid_size.csv
+        img_key : str 
+                  {None, '3', 'A', 'M', 'P'}, optional
+                  Specify this to load single image
+                  None loads all images (i.e. every band of the same image) and returns in a dict
+                  '3' loads image from three_band/
+                  'A' loads '_A' image from sixteen_
