@@ -190,4 +190,16 @@ class mask_generator :
         
         inDir = os.getcwd()
         
-        d = {'3': '{}/Data/pan_sharpened_images
+        d = {'3': '{}/Data/pan_sharpened_images/{}.tif'.format(inDir, imageId),
+             'A': '{}/Data/sixteen_band/{}_A.tif'.format(inDir, imageId),
+             'M': '{}/Data/sixteen_band/{}_M.tif'.format(inDir, imageId),
+             'P': '{}/Data/sixteen_band/{}_P.tif'.format(inDir, imageId),
+             }
+        return d
+
+
+    def get_images(self,imageId, img_key = None):
+        '''
+        Load images correspoding to imageId
+    
+        Para
