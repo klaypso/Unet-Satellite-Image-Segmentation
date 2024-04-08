@@ -240,4 +240,14 @@ class mask_generator :
         creator = gdal_utils()
         
         # train-images multiploygon co-ordinates
+        df = pd.read_csv(os.path.join(inDir,'Data/train_wkt_v4.csv'))
+        print(df.head())
     
+        # grid size will also be needed later..
+        gs = pd.read_csv(os.path.join(inDir,'Data/grid_sizes.csv'), names=['ImageId', 'Xmax', 'Ymin'], skiprows=1)
+        print(gs.head())
+        
+        # Distinct imageIds in the DataFrame
+        trainImageIds = self.get_distinct_ids(df)    
+        
+        for key,classes in 
