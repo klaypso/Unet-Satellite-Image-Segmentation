@@ -261,4 +261,10 @@ class mask_generator :
             
             for imageId in trainImageIds :
                                 
-                image 
+                image = self.get_images(imageId,'P')
+                print("imageId : {}, image_shape : {}".format(imageId,image['P'].shape) )
+                                
+                mask = self.generate_mask_for_image_and_class(image['P'].shape,imageId,classes,gs,df)
+                print("mask : {}".format(mask.shape))
+                
+                ref_raster_fn = os.path.join(os.getcwd(),"Data/sixteen_band/" + imageI
