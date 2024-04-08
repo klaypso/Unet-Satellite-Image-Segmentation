@@ -211,4 +211,18 @@ class mask_generator :
                   Specify this to load single image
                   None loads all images (i.e. every band of the same image) and returns in a dict
                   '3' loads image from three_band/
-                  'A' loads '_A' image from sixteen_
+                  'A' loads '_A' image from sixteen_band/
+                  'M' loads '_M' image from sixteen_band/
+                  'P' loads '_P' image from sixteen_band/
+        Returns
+        -------
+        images : dict
+                 A dict of image data from TIFF files as numpy array
+        '''
+        
+        creator = gdal_utils()
+        
+        img_names = self.get_image_names(imageId)
+        images = dict()
+        if img_key is None:
+   
