@@ -250,4 +250,15 @@ class mask_generator :
         # Distinct imageIds in the DataFrame
         trainImageIds = self.get_distinct_ids(df)    
         
-        for key,classes in 
+        for key,classes in enumerate(self.CLASSES) :        
+            
+            base = os.path.join(os.getcwd(),'Data_masks')        
+            path = os.path.join(base,self.CLASSES[classes])
+            
+            print(base)
+            print(path)
+            print(classes)
+            
+            for imageId in trainImageIds :
+                                
+                image 
