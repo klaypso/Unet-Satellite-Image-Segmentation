@@ -225,4 +225,19 @@ class mask_generator :
         img_names = self.get_image_names(imageId)
         images = dict()
         if img_key is None:
-   
+            for k in img_names.keys():
+                images[k] = creator.gdal_to_nparr(img_names[k])
+        else:
+            images[img_key] = creator.gdal_to_nparr(img_names[img_key])
+        return images
+
+    def generate_all_masks(self):
+        
+        # Base Address
+        inDir = os.getcwd()
+        
+        # Helper class
+        creator = gdal_utils()
+        
+        # train-images multiploygon co-ordinates
+    
