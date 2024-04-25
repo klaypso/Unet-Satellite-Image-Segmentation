@@ -267,4 +267,17 @@ class mask_generator :
                 mask = self.generate_mask_for_image_and_class(image['P'].shape,imageId,classes,gs,df)
                 print("mask : {}".format(mask.shape))
                 
-                ref_raster_fn = os.path.join(os.getcwd(),"Data/sixteen_band/" + imageI
+                ref_raster_fn = os.path.join(os.getcwd(),"Data/sixteen_band/" + imageId + "_P.tif")
+                new_raster_fn = os.path.join(path,imageId + "_" + self.CLASSES[classes] + ".tif")
+                
+                temp = creator.create_tiff_file_from_array(ref_raster_fn,new_raster_fn,mask*255)
+                temp = None
+                
+if __name__ == '__main__' :
+    
+    alex = mask_generator()
+    alex.generate_all_masks()
+
+
+
+
