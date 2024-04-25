@@ -547,3 +547,207 @@ def forward_prop(X,weight_parameters,bool_train = True) :
             conv16 = tf.nn.leaky_relu(conv16,name = "activation")
             variable_summaries_weights_biases(right_2_2_conv)
             variable_summaries_weights_biases(right_2_2_conv_bias)
+
+            conv16_obj = convolution(conv15.shape[1],conv15.shape[2],conv15.shape[3],right_2_2_conv.shape[0],right_2_2_conv.shape[1],right_2_2_conv.shape[3],3,3,conv15.shape[1],conv15.shape[2])                    
+            de_conv16_obj = trans_convolve(None,True,conv16_obj.output_h,conv16_obj.output_w,conv16_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 64,stride_h = 2,stride_w = 2,padding = 'VALID')    
+           
+        with tf.name_scope("Deconvolve") :
+            de_conv16 = tf.nn.conv2d_transpose(conv16,right_2_3_deconv,output_shape = (tf.shape(X)[0],de_conv16_obj.output_h,de_conv16_obj.output_w,de_conv16_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv") 
+            variable_summaries_weights_biases(right_2_3_deconv)
+                    
+    ### Right Branch 1st layer ###
+
+    with tf.name_scope("Merging") :
+        conv2 = tf.pad(conv2,paddings=[[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC')
+        merge4 = tf.concat([de_conv16,conv2], axis = 3,name = "merge")
+
+
+    with tf.name_scope("Right_Branch_1st_Layer"):
+
+        with tf.name_scope("Conv1") : 
+            conv17 = tf.nn.conv2d(merge4,right_1_1_conv,(1,1,1,1),padding = 'VALID',name = "convolve")
+            conv17 = tf.nn.bias_add(conv17,right_1_1_conv_bias,name = "bias_add")  
+            conv17 = tf.layers.batch_normalization(conv17,training = bool_train,name = "norm_17")
+            conv17 = tf.nn.leaky_relu(conv17,name = "activation")
+            variable_summaries_weights_biases(right_1_1_conv)
+            variable_summaries_weights_biases(right_1_1_conv_bias)
+            assert(conv17.shape[1:] == [120,120,32])
+    
+        with tf.name_scope("Conv2"):
+            conv18 = tf.nn.conv2d(conv17,right_1_2_conv,(1,1,1,1),padding='VALID',name="convolve")
+            conv18 = tf.nn.bias_add(conv18,right_1_2_conv_bias,name = "bias_add")
+            conv18 = tf.layers.batch_normalization(conv18,training = bool_train,name = "norm_18")
+            conv18 = tf.sigmoid(conv18,name="activation")
+            variable_summaries_weights_biases(right_1_2_conv)
+            variable_summaries_weights_biases(right_1_2_conv_bias)            
+            assert(conv18.shape[1:] == [112,112,1])            
+        
+    return conv18
+
+def compute_jaccard_cost(Y,Z3,batch_size) :
+    ''' Computes the Jaccard Index and the Jaccard Cost.
+
+    Description :
+        The normal Jaccard index is non-differentiable. This function is an approximation to this index
+        that makes this index differentiable.
+
+    Arguments :
+        Y          -- np.array.
+                      Ground truth values of the mini-batch.
+        Z3         -- np.array.
+                      The ouput vector from the forward propagation.
+        batch_size -- Int.
+                      The number of images in a mini-batch.
+
+    Returns :
+        Jaccard      -- np.array.
+                        Contains the jaccard values for each input image
+        Jaccard_loss -- np.array.
+                        Contains the jaccard loss for each input image.
+    '''
+    
+    with tf.name_scope("Costs") :
+        
+        with tf.name_scope("Jaccard_Loss") :
+
+            # Intersection
+            nr = tf.multiply(Y,Z3)
+
+            # Union
+            dr = Y + Z3 -nr
+
+            # Jaccard = Intersection/Union
+            Jaccard = tf.divide( tf.reshape(tf.reduce_sum(nr,axis = [1,2,3]),shape = (batch_size,1)) , tf.reshape(tf.reduce_sum(dr,axis = [1,2,3] ),shape = (batch_size,1)) )
+            
+            Jaccard_loss = -tf.log(Jaccard)
+            
+            variable_summaries_weights_biases(Jaccard)
+        
+            return Jaccard,Jaccard_loss
+        
+
+############################################ NETWORK BUILDING ############################################
+
+############################################# MODEL BUILDING #############################################
+
+def model(img_rows,img_cols,num_channels,learning = 0.003,num_epochs = 50,batch_size = 16):
+
+    # Tensorflow Graph
+    X,Y = create_placeholders(img_rows,img_cols,num_channels)
+    
+    parameters = initialize_parameters()
+    
+    Z3 = forward_prop(X,parameters,bool_train = True)
+    
+    Jaccard,Jaccard_loss = compute_jaccard_cost(Y,Z3,batch_size)
+
+    global_step = tf.Variable(0, trainable=False)
+    starter_learning_rate = learning
+
+    learning_rate = tf.train.exponential_decay(starter_learning_rate,global_step,10000,decay_rate = 1)
+
+    update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+    with tf.control_dependencies(update_ops):
+        with tf.name_scope("Optimizer") :
+            optimizer = tf.train.AdamOptimizer(learning_rate).minimize(Jaccard_loss,global_step=global_step,name = "Adam")
+    # Tensorflow Graph
+    
+    init = tf.global_variables_initializer()
+        
+    # Creating the saving object 
+    saver = tf.train.Saver(max_to_keep = 10000,var_list = tf.global_variables())
+    
+    merged = tf.summary.merge_all()
+    with tf.Session() as sess:
+
+        train_writer = tf.summary.FileWriter("Summaries/Road_tar",sess.graph)
+        sess.run(init)
+        
+        jaccard_list = []
+        epoch_list = []
+                
+        for epoch in range(num_epochs) :
+        
+            print("Epoch Number : " + str(epoch))
+            
+            jaccards  = 0
+            
+            counting = 0
+            for i in range(1500) :
+                
+                
+                with open("./Data_training/Road/train" + "_" + str(i) + "_" + ".pkl","rb") as f :
+                    X_input = pickle.load(f)
+                
+                with open("./Data_training/Road/test" + "_" + str(i) + "_" + ".pkl","rb") as f :
+                    Y_input = pickle.load(f)
+
+                if X_input is None or Y_input is None :
+                    print("Something is wrong")
+                    return None
+
+                X_input = X_input/2047
+                
+                if ((epoch%1 == 0) and (counting == 1499)):
+                    _,batch_jaccard,summary = sess.run([optimizer,Jaccard,merged], feed_dict = {X:X_input[:,:,:,0:9],Y:Y_input})                
+                else:
+                    _,batch_jaccard,learning_rate_val = sess.run([optimizer,Jaccard,learning_rate], feed_dict = {X:X_input[:,:,:,0:9],Y:Y_input})
+                                
+                X_input = None
+                Y_input = None
+                
+                jaccards += np.sum(batch_jaccard)/batch_size
+                
+                counting += 1
+                
+            print(jaccards/1500)
+            print(learning_rate_val)
+            
+            jaccard_list.append(jaccards/1500)
+            epoch_list.append(epoch)
+            
+            if epoch == 0:
+                highest_jaccard = jaccards 
+            
+            if epoch%1 == 0:
+                
+                train_writer.add_summary(summary,global_step = epoch)
+                
+                if highest_jaccard <= jaccards :
+                    
+                    highest_jaccard = jaccards
+                
+                    path = os.path.join(os.getcwd(),'Parameters/Road_tar/track-model.ckpt')
+                    saver.save(sess,path,global_step=epoch)   
+        
+        train_writer.close()
+        
+        
+        fig = plt.figure()
+        ax1 = fig.add_subplot(111)
+        ax1.set_ylabel("Jaccard")
+        ax1.set_xlabel("Epochs")
+        ax1.plot(epoch_list,jaccard_list)
+        plt.show()
+        plt.close()
+        
+        
+############################################# MODEL BUILDING #############################################
+
+if __name__ == '__main__':
+
+    img_rows=112
+    img_cols=112
+    num_channels=9
+    
+    model(img_rows,img_cols,num_channels)
+
+
+
+
+
+
+
+
+
+
