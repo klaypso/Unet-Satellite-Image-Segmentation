@@ -614,3 +614,285 @@ def forward_prop(X,weight_parameters,bool_train = True) :
     
     ### Right Branch 3rd layer ###
     
+    with tf.name_scope("Merging") :
+    
+        merge2 = tf.concat([de_conv12,conv6],axis = 3,name = "merge")
+    
+    with tf.name_scope("Right_Branch_3rd_Layer"):
+        
+        with tf.name_scope("Conv_1") :
+            
+            conv13 = tf.nn.conv2d(tf.pad(merge2,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),right_3_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv13 = tf.nn.bias_add(conv13,right_3_1_conv_bias,name = "bias_add")
+            conv13 = tf.layers.batch_normalization(conv13,training = bool_train,name = "norm_13")
+            conv13 =  tf.nn.leaky_relu(conv13,name = "activation")
+        
+        with tf.name_scope("Conv_2") :
+    
+            conv14 = tf.nn.conv2d(tf.pad(conv13,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),right_3_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv14 = tf.nn.bias_add(conv14,right_3_2_conv_bias,name = "bias_add")
+            conv14 = tf.layers.batch_normalization(conv14,training = bool_train,name = "norm_14")
+            conv14 =  tf.nn.leaky_relu(conv14,name = "activation")
+            conv14_obj = convolution(conv13.shape[1],conv13.shape[2],conv13.shape[3],right_3_2_conv.shape[0],right_3_2_conv.shape[1],right_3_2_conv.shape[3],3,3,conv13.shape[1],conv13.shape[2])                
+            de_conv14_obj = trans_convolve(None,True,conv14_obj.output_h,conv14_obj.output_w,conv14_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 128,stride_h = 2,stride_w = 2,padding = 'VALID')
+        
+        with tf.name_scope("Deconvolve") :    
+            de_conv14 = tf.nn.conv2d_transpose(conv14,right_3_3_deconv,output_shape = (tf.shape(X)[0],de_conv14_obj.output_h,de_conv14_obj.output_w,de_conv14_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
+    
+    ### Right Branch 2nd layer ###
+    
+    with tf.name_scope("Merging") :
+        
+        merge3 = tf.concat([de_conv14,conv4],axis = 3,name = "merge")
+    
+    with tf.name_scope("Right_Branch_2nd_Layer"):
+  
+        with tf.name_scope("Conv_1") :     
+            conv15 = tf.nn.conv2d(tf.pad(merge3,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),right_2_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv15 = tf.nn.bias_add(conv15,right_2_1_conv_bias,name = "bias_add")
+            conv15 = tf.layers.batch_normalization(conv15,training = bool_train,name = "norm_15")
+            conv15 =  tf.nn.leaky_relu(conv15,name = "activation")
+            
+        with tf.name_scope("Conv_2") :
+            conv16 = tf.nn.conv2d(tf.pad(conv15,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),right_2_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv16 = tf.nn.bias_add(conv16,right_2_2_conv_bias,name = "bias_add")
+            conv16 = tf.layers.batch_normalization(conv16,training = bool_train,name = "norm_16")
+            conv16 = tf.nn.leaky_relu(conv16,name = "activation")
+
+            conv16_obj = convolution(conv15.shape[1],conv15.shape[2],conv15.shape[3],right_2_2_conv.shape[0],right_2_2_conv.shape[1],right_2_2_conv.shape[3],3,3,conv15.shape[1],conv15.shape[2])                    
+            de_conv16_obj = trans_convolve(None,True,conv16_obj.output_h,conv16_obj.output_w,conv16_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 64,stride_h = 2,stride_w = 2,padding = 'VALID')    
+           
+        with tf.name_scope("Deconvolve") :
+            de_conv16 = tf.nn.conv2d_transpose(conv16,right_2_3_deconv,output_shape = (tf.shape(X)[0],de_conv16_obj.output_h,de_conv16_obj.output_w,de_conv16_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv") 
+                    
+    ### Right Branch 1st layer ###
+
+    with tf.name_scope("Merging") :
+        conv2 = tf.pad(conv2,paddings=[[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC')
+        merge4 = tf.concat([de_conv16,conv2], axis = 3,name = "merge")
+
+
+    with tf.name_scope("Right_Branch_1st_Layer"):
+
+        with tf.name_scope("Conv1") : 
+            conv17 = tf.nn.conv2d(merge4,right_1_1_conv,(1,1,1,1),padding = 'VALID',name = "convolve")
+            conv17 = tf.nn.bias_add(conv17,right_1_1_conv_bias,name = "bias_add")  
+            conv17 = tf.layers.batch_normalization(conv17,training = bool_train,name = "norm_17")
+            conv17 = tf.nn.leaky_relu(conv17,name = "activation")
+            assert(conv17.shape[1:] == [120,120,32])
+    
+        with tf.name_scope("Conv2"):
+            conv18 = tf.nn.conv2d(conv17,right_1_2_conv,(1,1,1,1),padding='VALID',name="convolve")
+            conv18 = tf.nn.bias_add(conv18,right_1_2_conv_bias,name = "bias_add")
+            conv18 = tf.layers.batch_normalization(conv18,training = bool_train,name = "norm_18")
+            conv18 = tf.sigmoid(conv18,name="activation")         
+            assert(conv18.shape[1:] == [112,112,1])
+            
+    return conv18
+
+
+def compute_jaccard(truth,pred) :
+    
+    assert(truth.shape == pred.shape)
+    
+    nr   = np.sum(np.multiply(truth,pred))
+    dr_1 = np.sum(truth)
+    dr_2 = np.sum(pred)
+    
+    value = (nr + 1e-12)/(dr_1 + dr_2 - nr + 1e-12)
+    
+    return value
+
+def apply_median_filter(pred):
+    ''' Applies the median filter to the output("pred") to remove salt and pepper noise.'''
+    
+    pred = np.reshape(pred, newshape = (pred.shape[0],pred.shape[1]) )    
+    pred = medfilt2d(pred)
+    
+    return pred
+
+
+def post_processing(pred) : 
+    ''' Applies the median filter and cleans the image noise using morphology operators.'''
+    
+    pred = apply_median_filter(pred)
+    pred = np.expand_dims(pred,axis = 2)
+    pred = np.asarray(pred,dtype = np.uint8)    
+
+    # Structure for cleaning noise
+    structure = np.ones( shape = (15,15,1) )
+
+    # Morphology Opening and Closing 
+    opened = binary_opening(pred,structure)
+    closed = binary_closing(opened,structure)
+    
+    return closed
+
+def find_best_threshold(output_mat,truth) :
+    
+    threshs = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95]
+    
+    max_val = 0
+    final_thresh = 0
+    
+    for thresh in threshs :
+        
+        x_s,y_s,z_s = np.where(output_mat >= thresh)
+        x_s_2,y_s_2,z_s_2 = np.where(output_mat < thresh)        
+
+        copy = np.copy(output_mat)
+        copy[x_s,y_s,z_s] = 1
+        copy[x_s_2,y_s_2,z_s_2] = 0      
+        
+        result = compute_jaccard(truth,copy)
+        
+        if result > max_val :
+            max_val = result
+            final_thresh = thresh
+            
+        copy = None
+        
+        print("Prediction with threshold = {}".format(thresh))
+        print("Result : {}".format(result))
+        
+    x_s,y_s,z_s = np.where(output_mat >= final_thresh)
+    x_s_2,y_s_2,z_s_2 = np.where(output_mat < final_thresh)        
+
+    copy = np.copy(output_mat)
+    copy[x_s,y_s,z_s] = 1
+    copy[x_s_2,y_s_2,z_s_2] = 0      
+    
+    
+    return copy
+
+############################################ NETWORK BUILDING ############################################
+
+############################################# MODEL BUILDING #############################################
+
+def model(image_test,truth,img_rows,img_cols,num_channels):
+
+    #Tensorflow Graph
+    X,Y = create_placeholders(img_rows,img_cols,num_channels)
+    
+    parameters = initialize_parameters()
+    
+    Z3 = forward_prop(X,parameters,bool_train = False)
+        
+    init = tf.global_variables_initializer()
+        
+    saver = tf.train.Saver(max_to_keep = 10000,var_list = tf.global_variables())
+    #Tensorflow Graph
+    
+    with tf.Session() as sess:
+                
+        sess.run(init)                
+        
+        path = os.path.join(os.getcwd(),"Parameters/Road_tar")
+        ckpt = tf.train.get_checkpoint_state(path)
+            
+        if ckpt and ckpt.model_checkpoint_path:
+            print("Restoration of parameters of model with code_string Road_tar has been successfull")
+            saver.restore(sess,ckpt.model_checkpoint_path)
+        
+        padded_image,pics_in_rows,pics_in_cols = create_padded_image(image_test)
+        final_ans = np.zeros(shape = (padded_image.shape[0],padded_image.shape[1],1))  
+        
+        normalized_truth = np.divide(truth,255)
+
+        start_row = 0
+        end_row = start_row + img_rows
+        stride = 28
+
+        while( end_row <= padded_image.shape[0]):
+
+            # Get input for one complete row in an image.
+            row_input = create_row_input(padded_image,stride,start_row,img_rows = 112,img_cols = 112,img_channels = 9)            
+
+            # Number of forward propagations
+            if row_input.shape[0]%16 == 0:
+                iterations = row_input.shape[0]//16
+            else:
+                iterations = row_input.shape[0]//16 + 1
+                
+
+            # Get all the ouputs of the forward_propagations
+            for count in range(iterations) :
+
+                if count < iterations-1:
+                    small_batch = np.reshape(row_input[count*16:(count+1)*16,:,:,:],newshape = (16,img_rows,img_cols,num_channels))
+                else:
+                    small_batch = np.reshape( row_input[count*16:,:,:,:], newshape = (row_input.shape[0]-count*16,img_rows,img_cols,num_channels) )
+
+                [output] = sess.run([Z3], feed_dict = {X:small_batch})
+                # Free Memory
+                small_batch = None
+            
+                if count  == 0 :
+                    patch_ans = output
+                    assert( patch_ans.shape == (16,112,112,1) )
+                else :
+                    temp_output = output
+                    assert( temp_output.shape[1:] == (112,112,1) )
+                    patch_ans = np.concatenate((patch_ans,temp_output),axis = 0)
+                    # Free Memory
+                    temp_output = None
+        
+         
+            final_ans = overlay_ans(final_ans,patch_ans,padded_image,stride,start_row,img_rows = 112,img_cols = 112,img_channels = 9)
+            
+            start_row += stride
+            end_row = start_row + 112
+
+            row_input = None
+            patch_ans = None
+            
+        assert(end_row - 28 == padded_image.shape[0])
+        
+        height = image_test.shape[0]
+        width  = image_test.shape[1]
+        
+        count_grid = create_count_grid(padded_image,stride = 28)
+        padded_image = None
+        output_mat = normalize_image(final_ans,count_grid)
+        count_grid = None
+        output_mat = output_mat[:height,:width,:]
+        
+        thresh = find_best_threshold(output_mat,normalized_truth)
+
+        return thresh*255
+
+############################################# MODEL BUILDING #############################################
+
+if __name__ == '__main__':
+
+    files_train,files_test = get_masks_list()
+
+    (image_test,truth1) = get_testing_image_pair(files_test,files_test[1])
+    
+    # Predictions and Results before Post Processing 
+    answer = model(image_test,truth1,img_rows=112,img_cols=112,num_channels=9)
+    result = compute_jaccard(truth1/255,answer/255)
+    answer = answer.astype(dtype = np.uint8)
+    
+    writer_1 = gdal_utils()
+    writer_1.create_tiff_file_from_array(os.path.join(os.getcwd(),"Data_masks/Road/Test/" + files_test[1] + "_Road.tif"),os.path.join(os.getcwd(),"Results/pred_Roads.tif"),answer)    
+    
+    # Post Processed    
+    re = post_processing(answer/255)
+    result = compute_jaccard(truth1/255,re)
+    print("Post processing : {}".format(result))
+    
+    re = re*255
+    re = re.astype(dtype = np.uint8)
+    plt.imshow(re[:,:,0])    
+    
+    writer_2 = gdal_utils()
+    writer_2.create_tiff_file_from_array(os.path.join(os.getcwd(),"Data_masks/Road/Test/" + files_test[1] + "_Road.tif"),os.path.join(os.getcwd(),"Results/processed_pred_Roads.tif"),re)        
+    
+    
+    
+
+
+
+
+
