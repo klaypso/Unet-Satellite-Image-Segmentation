@@ -114,3 +114,436 @@ def initialize_parameters():
     left_2_1_conv_bias = tf.get_variable(name = "Road_tar_left_2_1_conv_bias",shape = (64),dtype = tf.float32,initializer = tf.constant_initializer(l_21),trainable = True)
     
     l_22 = constant_initializer(64)
+    left_2_2_conv = tf.get_variable(name = "Road_tar_left_2_2_conv",shape = (3,3,64,64),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    left_2_2_conv_bias = tf.get_variable(name = "Road_tar_left_2_2_conv_bias",shape = (64),dtype = tf.float32,initializer = tf.constant_initializer(l_22),trainable = True)    
+    
+    l_31 = constant_initializer(128)
+    left_3_1_conv = tf.get_variable(name = "Road_tar_left_3_1_conv",shape = (3,3,64,128),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    left_3_1_conv_bias = tf.get_variable(name = "Road_tar_left_3_1_conv_bias",shape = (128),dtype = tf.float32,initializer = tf.constant_initializer(l_31),trainable = True)
+
+    l_32 = constant_initializer(128)
+    left_3_2_conv = tf.get_variable(name = "Road_tar_left_3_2_conv",shape = (3,3,128,128),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    left_3_2_conv_bias = tf.get_variable(name = "Road_tar_left_3_2_conv_bias",shape = (128),dtype = tf.float32,initializer = tf.constant_initializer(l_32),trainable = True)
+    
+    l_41 = constant_initializer(256)    
+    left_4_1_conv = tf.get_variable(name = "Road_tar_left_4_1_conv",shape = (3,3,128,256),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    left_4_1_conv_bias = tf.get_variable(name = "Road_tar_left_4_1_conv_bias",shape = (256),dtype = tf.float32,initializer = tf.constant_initializer(l_41),trainable = True)    
+    
+    l_42 = constant_initializer(256)    
+    left_4_2_conv = tf.get_variable(name = "Road_tar_left_4_2_conv",shape = (3,3,256,256),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    left_4_2_conv_bias = tf.get_variable(name = "Road_tar_left_4_2_conv_bias",shape = (256),dtype = tf.float32,initializer = tf.constant_initializer(l_42),trainable = True)        
+    
+    c_51 = constant_initializer(512) 
+    centre_5_1_conv = tf.get_variable(name = "Road_tar_centre_5_1_conv",shape = (3,3,256,512),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    centre_5_1_conv_bias = tf.get_variable(name = "Road_tar_centre_5_1_conv_bias",shape = (512),dtype = tf.float32,initializer = tf.constant_initializer(c_51),trainable = True)    
+    
+    c_52 = constant_initializer(512)
+    centre_5_2_conv = tf.get_variable(name = "Road_tar_centre_5_2_conv",shape = (3,3,512,512),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    centre_5_2_conv_bias = tf.get_variable(name = "Road_tar_centre_5_2_conv_bias",shape = (512),dtype = tf.float32,initializer = tf.constant_initializer(c_52),trainable = True)
+
+    weights_1 = np.transpose(get_bilinear_filter([2,2,512,128],2),(1,0,3,2))
+    centre_5_3_deconv = tf.get_variable(name = "Road_tar_centre_5_3_deconv",shape = (2,2,128,512),dtype = tf.float32,initializer = tf.constant_initializer(value=weights_1,dtype=tf.float32),trainable = False)         
+
+    r_41 = constant_initializer(256)
+    right_4_1_conv = tf.get_variable(name = "Road_tar_right_4_1_conv",shape = (3,3,128 + 256,256),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_4_1_conv_bias = tf.get_variable(name = "Road_tar_right_4_1_conv_bias",shape = (256),dtype = tf.float32,initializer = tf.constant_initializer(r_41),trainable = True)
+    
+    r_42 = constant_initializer(256)    
+    right_4_2_conv = tf.get_variable(name = "Road_tar_right_4_2_conv",shape = (3,3,256,256),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_4_2_conv_bias = tf.get_variable(name = "Road_tar_right_4_2_conv_bias",shape = (256),dtype = tf.float32,initializer = tf.constant_initializer(r_42),trainable = True)
+
+    weights_2 = np.transpose(get_bilinear_filter([2,2,256,256],2),(1,0,3,2))  
+    right_4_3_deconv = tf.get_variable(name = "Road_tar_right_4_3_deconv",shape = (2,2,256,256),dtype = tf.float32,initializer = tf.constant_initializer(value=weights_2,dtype=tf.float32),trainable = False)         
+    
+    r_31 = constant_initializer(128)    
+    right_3_1_conv = tf.get_variable(name = "Road_tar_right_3_1_conv",shape = (3,3,128 + 256,128),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_3_1_conv_bias = tf.get_variable(name = "Road_tar_right_3_1_conv_bias",shape = (128),dtype = tf.float32,initializer = tf.constant_initializer(r_31),trainable = True)
+    
+    r_32 = constant_initializer(128)    
+    right_3_2_conv = tf.get_variable(name = "Road_tar_right_3_2_conv",shape = (3,3,128,128),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_3_2_conv_bias = tf.get_variable(name = "Road_tar_right_3_2_conv_bias",shape = (128),dtype = tf.float32,initializer = tf.constant_initializer(r_32),trainable = True)
+
+    weights_3 = np.transpose(get_bilinear_filter([2,2,128,128],2),(1,0,3,2))    
+    right_3_3_deconv = tf.get_variable(name  = "Road_tar_right_3_3_deconv", shape = (2,2,128,128),dtype = tf.float32,initializer = tf.constant_initializer(value=weights_3,dtype=tf.float32),trainable = False)
+
+    r_21 = constant_initializer(64)
+    right_2_1_conv = tf.get_variable(name = "Road_tar_right_2_1_conv",shape = (3,3,128 + 64,64),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_2_1_conv_bias = tf.get_variable(name = "Road_tar_right_2_1_conv_bias",shape = (64),dtype = tf.float32,initializer = tf.constant_initializer(r_21),trainable = True)
+    
+    r_22 = constant_initializer(64)    
+    right_2_2_conv = tf.get_variable(name = "Road_tar_right_2_2_conv",shape = (3,3,64,64),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_2_2_conv_bias = tf.get_variable(name = "Road_tar_right_2_2_conv_bias",shape = (64),dtype = tf.float32,initializer =tf.constant_initializer(r_22),trainable = True)
+
+    weights_4 = np.transpose(get_bilinear_filter([2,2,64,64],2),(1,0,3,2))  
+    right_2_3_deconv = tf.get_variable(name = "Road_tar_right_2_3_deconv",shape = (2,2,64,64),dtype = tf.float32,initializer = tf.constant_initializer(value=weights_4,dtype=tf.float32),trainable = False)
+
+    r_11 = constant_initializer(32)
+    right_1_1_conv = tf.get_variable(name = "Road_tar_right_1_1_conv",shape = (9,9,64+32,32),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_1_1_conv_bias = tf.get_variable(name = "Road_tar_right_1_1_conv_bias",shape = (32),dtype = tf.float32,initializer = tf.constant_initializer(r_11),trainable = True)
+    
+    r_12 = constant_initializer(1)    
+    right_1_2_conv = tf.get_variable(name = "Road_tar_right_1_2_conv",shape = (9,9,32,1),dtype = tf.float32,initializer = tf.keras.initializers.he_uniform(),trainable = True)
+    right_1_2_conv_bias = tf.get_variable(name = "Road_tar_right_1_2_conv_bias",shape = (1),dtype = tf.float32,initializer = tf.constant_initializer(r_12),trainable = True)
+    
+    weight_parameters = {}
+
+    weight_parameters["left_1_1_conv"] = left_1_1_conv
+    weight_parameters["left_1_1_conv_bias"] = left_1_1_conv_bias
+    
+    weight_parameters["left_1_2_conv"] = left_1_2_conv
+    weight_parameters["left_1_2_conv_bias"] = left_1_2_conv_bias
+
+    weight_parameters["left_2_1_conv"] = left_2_1_conv
+    weight_parameters["left_2_1_conv_bias"] = left_2_1_conv_bias    
+    
+    weight_parameters["left_2_2_conv"] = left_2_2_conv
+    weight_parameters["left_2_2_conv_bias"] = left_2_2_conv_bias    
+
+    weight_parameters["left_3_1_conv"] = left_3_1_conv
+    weight_parameters["left_3_1_conv_bias"] = left_3_1_conv_bias        
+    
+    weight_parameters["left_3_2_conv"] = left_3_2_conv
+    weight_parameters["left_3_2_conv_bias"] = left_3_2_conv_bias        
+
+    weight_parameters["left_4_1_conv"] = left_4_1_conv
+    weight_parameters["left_4_1_conv_bias"] = left_4_1_conv_bias            
+    
+    weight_parameters["left_4_2_conv"] = left_4_2_conv
+    weight_parameters["left_4_2_conv_bias"] = left_4_2_conv_bias            
+        
+    weight_parameters["centre_5_1_conv"] = centre_5_1_conv
+    weight_parameters["centre_5_1_conv_bias"] = centre_5_1_conv_bias                
+    
+    weight_parameters["centre_5_2_conv"] = centre_5_2_conv
+    weight_parameters["centre_5_2_conv_bias"] = centre_5_2_conv_bias                
+
+    weight_parameters["centre_5_3_deconv"] = centre_5_3_deconv
+
+    weight_parameters["right_4_1_conv"] = right_4_1_conv
+    weight_parameters["right_4_1_conv_bias"] = right_4_1_conv_bias            
+    
+    weight_parameters["right_4_2_conv"] = right_4_2_conv
+    weight_parameters["right_4_2_conv_bias"] = right_4_2_conv_bias
+
+    weight_parameters["right_4_3_deconv"] = right_4_3_deconv
+
+    weight_parameters["right_3_1_conv"] = right_3_1_conv
+    weight_parameters["right_3_1_conv_bias"] = right_3_1_conv_bias        
+    
+    weight_parameters["right_3_2_conv"] = right_3_2_conv
+    weight_parameters["right_3_2_conv_bias"] = right_3_2_conv_bias
+    
+    weight_parameters["right_3_3_deconv"] = right_3_3_deconv
+    
+    weight_parameters["right_2_1_conv"] = right_2_1_conv
+    weight_parameters["right_2_1_conv_bias"] = right_2_1_conv_bias
+    
+    weight_parameters["right_2_2_conv"] = right_2_2_conv
+    weight_parameters["right_2_2_conv_bias"] = right_2_2_conv_bias    
+    
+    weight_parameters["right_2_3_deconv"] = right_2_3_deconv
+     
+    weight_parameters["right_1_1_conv"] = right_1_1_conv
+    weight_parameters["right_1_1_conv_bias"] = right_1_1_conv_bias
+
+    weight_parameters["right_1_2_conv"] = right_1_2_conv
+    weight_parameters["right_1_2_conv_bias"] = right_1_2_conv_bias
+     
+    return weight_parameters
+
+
+def forward_prop(X,weight_parameters,bool_train = True) : 
+    
+    '''
+    Description :
+        Performs the forward propagation in the network.
+        
+    Arguments :
+        X                 -- np.array
+                             The input matrix
+        weight_parameters -- dict.
+                             The initialized weights for the matrix
+        bool_train        -- Bool.
+                             An argument passed to the batch normalization parameter, to allow the updation of batch mean and variance
+
+    Returns :
+        conv18 -- The final feature vector
+    '''
+    
+    left_1_1_conv = weight_parameters["left_1_1_conv"] 
+    left_1_2_conv = weight_parameters["left_1_2_conv"]
+    
+    left_2_1_conv = weight_parameters["left_2_1_conv"]
+    left_2_2_conv = weight_parameters["left_2_2_conv"]
+    
+    left_3_1_conv = weight_parameters["left_3_1_conv"]
+    left_3_2_conv = weight_parameters["left_3_2_conv"]
+    
+    left_4_1_conv = weight_parameters["left_4_1_conv"]
+    left_4_2_conv = weight_parameters["left_4_2_conv"]
+    
+    centre_5_1_conv = weight_parameters["centre_5_1_conv"]
+    centre_5_2_conv = weight_parameters["centre_5_2_conv"]
+
+    left_1_1_conv_bias = weight_parameters["left_1_1_conv_bias"] 
+    left_1_2_conv_bias = weight_parameters["left_1_2_conv_bias"]
+    
+    left_2_1_conv_bias = weight_parameters["left_2_1_conv_bias"]
+    left_2_2_conv_bias = weight_parameters["left_2_2_conv_bias"]
+    
+    left_3_1_conv_bias = weight_parameters["left_3_1_conv_bias"]
+    left_3_2_conv_bias = weight_parameters["left_3_2_conv_bias"]
+    
+    left_4_1_conv_bias = weight_parameters["left_4_1_conv_bias"]
+    left_4_2_conv_bias = weight_parameters["left_4_2_conv_bias"]
+    
+    centre_5_1_conv_bias = weight_parameters["centre_5_1_conv_bias"]
+    centre_5_2_conv_bias = weight_parameters["centre_5_2_conv_bias"]
+
+    centre_5_3_deconv = weight_parameters["centre_5_3_deconv"]
+
+    right_4_1_conv = weight_parameters["right_4_1_conv"] 
+    right_4_1_conv_bias = weight_parameters["right_4_1_conv_bias"]             
+    
+    right_4_2_conv = weight_parameters["right_4_2_conv"] 
+    right_4_2_conv_bias = weight_parameters["right_4_2_conv_bias"] 
+
+    right_4_3_deconv = weight_parameters["right_4_3_deconv"]
+
+    right_3_1_conv = weight_parameters["right_3_1_conv"]
+    right_3_1_conv_bias = weight_parameters["right_3_1_conv_bias"]         
+    
+    right_3_2_conv = weight_parameters["right_3_2_conv"] 
+    right_3_2_conv_bias = weight_parameters["right_3_2_conv_bias"]
+    
+    right_3_3_deconv = weight_parameters["right_3_3_deconv"]
+    
+    right_2_1_conv = weight_parameters["right_2_1_conv"]
+    right_2_1_conv_bias = weight_parameters["right_2_1_conv_bias"]
+    
+    right_2_2_conv = weight_parameters["right_2_2_conv"] 
+    right_2_2_conv_bias = weight_parameters["right_2_2_conv_bias"]   
+    
+    right_2_3_deconv = weight_parameters["right_2_3_deconv"]
+     
+    right_1_1_conv = weight_parameters["right_1_1_conv"] 
+    right_1_1_conv_bias = weight_parameters["right_1_1_conv_bias"] 
+
+    right_1_2_conv = weight_parameters["right_1_2_conv"] 
+    right_1_2_conv_bias = weight_parameters["right_1_2_conv_bias"] 
+
+
+    ### Left Branch 1st Layer ###
+    
+    
+    ## INTERESTING -- TENSORFLOW DOES A BAD JOB WHEN WE WANT TO PAD AN EVEN INPUT WITH AN ODD KERNEL ##    
+    with tf.name_scope("Left_Branch_1st_Layer") :
+        
+        with tf.name_scope("Conv_1") :
+            conv1 = tf.nn.conv2d(tf.pad(X,paddings = [[0,0],[112,112],[112,112],[0,0]],mode = 'SYMMETRIC'),left_1_1_conv,strides = (1,3,3,1),padding = "VALID",name = "convolve")
+            conv1 = tf.nn.bias_add(conv1,left_1_1_conv_bias,name = "bias_add")
+            conv1 = tf.layers.batch_normalization(conv1,training = bool_train,name = "norm")
+            conv1 = tf.nn.leaky_relu (conv1,name = "activation")
+            variable_summaries_weights_biases(left_1_1_conv)
+            variable_summaries_weights_biases(left_1_1_conv_bias)
+    
+        with tf.name_scope("Conv_2") :    
+            conv2 = tf.nn.conv2d(tf.pad(conv1,paddings = [[0,0],[112,112],[112,112],[0,0]],mode = 'SYMMETRIC'), left_1_2_conv, (1,3,3,1), padding = "VALID",name = "convolve")
+            conv2 = tf.nn.bias_add(conv2,left_1_2_conv_bias,name = "bias_add")
+            conv2 = tf.layers.batch_normalization(conv2,training = bool_train,name = "norm_2")
+            conv2 =  tf.nn.leaky_relu(conv2,name = "activation")
+            variable_summaries_weights_biases(left_1_2_conv)
+            variable_summaries_weights_biases(left_1_2_conv_bias)
+        
+        with tf.name_scope("Pool") :
+            max_pool_1 = tf.nn.max_pool(tf.pad(conv2,paddings = [[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC'),ksize = (1,2,2,1), strides = (1,2,2,1),padding = "VALID",name = "max_pool")
+    
+    
+    ### Left Branch 2nd layer ###
+    
+    with tf.name_scope("Left_Branch_2nd_Layer") :   
+
+        with tf.name_scope("Conv_1") :
+            conv3 = tf.nn.conv2d(tf.pad(max_pool_1,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),left_2_1_conv, (1,3,3,1), padding = "VALID",name = "convolve")
+            conv3 = tf.nn.bias_add(conv3,left_2_1_conv_bias,name = "bias_add")
+            conv3 = tf.layers.batch_normalization(conv3,training = bool_train,name = "norm_3")
+            conv3 =  tf.nn.leaky_relu(conv3,name = "activation")
+            variable_summaries_weights_biases(left_2_1_conv)
+            variable_summaries_weights_biases(left_2_1_conv_bias)
+
+        with tf.name_scope("Conv_2") :
+            conv4 = tf.nn.conv2d(tf.pad(conv3,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),left_2_2_conv, (1,3,3,1), padding = 'VALID',name = "convolve")
+            conv4 = tf.nn.bias_add(conv4,left_2_2_conv_bias,name = "bias_add")
+            conv4 = tf.layers.batch_normalization(conv4,training = bool_train,name = "norm_4")
+            conv4 =  tf.nn.leaky_relu(conv4,name = "activation")
+            variable_summaries_weights_biases(left_2_2_conv)
+            variable_summaries_weights_biases(left_2_2_conv_bias)
+
+        with tf.name_scope("Pool") :
+            max_pool_2 = tf.nn.max_pool(conv4,ksize = (1,2,2,1),strides = (1,2,2,1),padding = "VALID",name = "max_pool")
+
+    
+    ### Left Branch 3rd layer ###
+    
+    with tf.name_scope("Left_Branch_3rd_Layer") :
+    
+        with tf.name_scope("Conv_1") :
+            conv5 = tf.nn.conv2d(tf.pad(max_pool_2,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),left_3_1_conv, (1,3,3,1), padding = 'VALID',name = "convolve")
+            conv5 = tf.nn.bias_add(conv5,left_3_1_conv_bias,name = "bias_add")
+            conv5 = tf.layers.batch_normalization(conv5,training = bool_train,name = "norm_5")
+            conv5 = tf.nn.leaky_relu(conv5,name = "activation")
+            variable_summaries_weights_biases(left_3_1_conv)
+            variable_summaries_weights_biases(left_3_1_conv_bias)
+
+        with tf.name_scope("Conv_2") :
+            conv6 = tf.nn.conv2d(tf.pad(conv5,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),left_3_2_conv, (1,3,3,1), padding = 'VALID',name = "convolve")
+            conv6 = tf.nn.bias_add(conv6,left_3_2_conv_bias,name = "bias_add")
+            conv6 = tf.layers.batch_normalization(conv6,training = bool_train,name = "norm_6")
+            conv6 = tf.nn.leaky_relu(conv6,name = "activation")
+            variable_summaries_weights_biases(left_3_2_conv)
+            variable_summaries_weights_biases(left_3_2_conv_bias)
+
+        with tf.name_scope("Pool") :
+            max_pool_3 = tf.nn.max_pool(conv6,ksize = (1,2,2,1),strides = (1,2,2,1),padding = "VALID",name = "max_pool")
+    
+    ### Left Branch 4th layer ###
+    
+    with tf.name_scope("Left_Branch_4th_Layer"):
+        
+        with tf.name_scope("Conv_1") :
+            conv7 = tf.nn.conv2d(tf.pad(max_pool_3,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),left_4_1_conv,(1,3,3,1),padding = "VALID",name = "convolve")
+            conv7 = tf.nn.bias_add(conv7,left_4_1_conv_bias,name = "bias_add")
+            conv7 = tf.layers.batch_normalization(conv7,training = bool_train,name = "norm_7")
+            conv7 =  tf.nn.leaky_relu(conv7,name = "activation")
+            variable_summaries_weights_biases(left_4_1_conv)
+            variable_summaries_weights_biases(left_4_1_conv_bias)
+            
+        with tf.name_scope("Conv_2") :
+            conv8 = tf.nn.conv2d(tf.pad(conv7,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),left_4_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv8 = tf.nn.bias_add(conv8,left_4_2_conv_bias,name = "bias_add")
+            conv8 = tf.layers.batch_normalization(conv8,training = bool_train,name = "norm_8")
+            conv8 =  tf.nn.leaky_relu(conv8,name = "activation")
+            variable_summaries_weights_biases(left_4_2_conv)
+            variable_summaries_weights_biases(left_4_2_conv_bias)
+
+        with tf.name_scope("Pool") :
+            max_pool_4 = tf.nn.max_pool(conv8,ksize = (1,2,2,1),strides = (1,2,2,1),padding = "VALID",name = "max_pool")
+    
+    
+    ### Centre Branch ###
+    
+    with tf.name_scope("Centre_Branch"):
+        
+        with tf.name_scope("Conv_1") :
+            
+            conv9 = tf.nn.conv2d(tf.pad(max_pool_4,paddings = [[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC'),centre_5_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv9 = tf.nn.bias_add(conv9,centre_5_1_conv_bias,name = "bias_add")
+            conv9 = tf.layers.batch_normalization(conv9,training = bool_train,name = "norm_9")
+            conv9 =  tf.nn.leaky_relu(conv9,name = "activation")
+            variable_summaries_weights_biases(centre_5_1_conv) 
+            variable_summaries_weights_biases(centre_5_1_conv_bias)
+            
+        with tf.name_scope("Conv_2") :
+        
+            conv10 = tf.nn.conv2d(tf.pad(conv9,paddings = [[0,0],[8,8],[8,8],[0,0]],mode = 'SYMMETRIC'),centre_5_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv10 = tf.nn.bias_add(conv10,centre_5_2_conv_bias,name = "bias_add")
+            conv10 = tf.layers.batch_normalization(conv10,training = bool_train,name = "norm_10")
+            conv10 =  tf.nn.leaky_relu(conv10,name = "activation")
+            variable_summaries_weights_biases(centre_5_2_conv)
+            variable_summaries_weights_biases(centre_5_2_conv_bias)
+
+            conv10_obj = convolution(conv9.shape[1],conv9.shape[2],conv9.shape[3],centre_5_2_conv.shape[0],centre_5_2_conv.shape[1],centre_5_2_conv.shape[3],3,3,conv9.shape[1],conv9.shape[2])
+            de_conv10_obj = trans_convolve(None,True,conv10_obj.output_h,conv10_obj.output_w,conv10_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d =128,stride_h = 2,stride_w = 2,padding = 'VALID')   
+          
+        with tf.name_scope("Deconvolve") : 
+            de_conv10  = tf.nn.conv2d_transpose(conv10,centre_5_3_deconv, output_shape = (tf.shape(X)[0],de_conv10_obj.output_h,de_conv10_obj.output_w,de_conv10_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
+            variable_summaries_weights_biases(centre_5_3_deconv)   
+
+    ### Right Branch 4th layer ###
+    
+    with tf.name_scope("Merging") :
+    
+        merge1 = tf.concat([de_conv10,conv8],axis = 3,name = "merge")   
+    
+    
+    with tf.name_scope("Right_Branch_4th_Layer"):
+    
+        with tf.name_scope("Conv_1") :
+            
+            conv11 = tf.nn.conv2d(tf.pad(merge1,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),right_4_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv11 = tf.nn.bias_add(conv11,right_4_1_conv_bias,name = "bias_add")
+            conv11 = tf.layers.batch_normalization(conv11,training = bool_train,name = "norm_11")
+            conv11 =  tf.nn.leaky_relu(conv11,name = "activation")
+            variable_summaries_weights_biases(right_4_1_conv)
+
+        with tf.name_scope("Conv_2") :
+    
+            conv12 = tf.nn.conv2d(tf.pad(conv11,paddings = [[0,0],[16,16],[16,16],[0,0]],mode = 'SYMMETRIC'),right_4_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv12 = tf.nn.bias_add(conv12,right_4_2_conv_bias,name = "bias_add")
+            conv12 = tf.layers.batch_normalization(conv12,training = bool_train,name = "norm_12")
+            conv12 =  tf.nn.leaky_relu(conv12,name = "activation")
+            variable_summaries_weights_biases(right_4_2_conv)
+            variable_summaries_weights_biases(right_4_2_conv_bias)
+
+            conv12_obj = convolution(conv11.shape[1],conv11.shape[2],conv11.shape[3],right_4_2_conv.shape[0],right_4_2_conv.shape[1],right_4_2_conv.shape[3],3,3,conv11.shape[1],conv11.shape[2])                
+            de_conv12_obj = trans_convolve(None,True,conv12_obj.output_h,conv12_obj.output_w,conv12_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 256,stride_h = 2,stride_w = 2,padding = 'VALID')   
+    
+        with tf.name_scope("Deconvolve") :    
+            de_conv12 = tf.nn.conv2d_transpose(conv12,right_4_3_deconv,output_shape = (tf.shape(X)[0],de_conv12_obj.output_h,de_conv12_obj.output_w,de_conv12_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
+            variable_summaries_weights_biases(right_4_3_deconv)
+    
+    ### Right Branch 3rd layer ###
+    
+    with tf.name_scope("Merging") :
+    
+        merge2 = tf.concat([de_conv12,conv6],axis = 3,name = "merge")
+    
+    with tf.name_scope("Right_Branch_3rd_Layer"):
+        
+        with tf.name_scope("Conv_1") :
+            
+            conv13 = tf.nn.conv2d(tf.pad(merge2,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),right_3_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv13 = tf.nn.bias_add(conv13,right_3_1_conv_bias,name = "bias_add")
+            conv13 = tf.layers.batch_normalization(conv13,training = bool_train,name = "norm_13")
+            conv13 =  tf.nn.leaky_relu(conv13,name = "activation")
+            variable_summaries_weights_biases(right_3_1_conv)    
+            variable_summaries_weights_biases(right_3_1_conv_bias)
+        
+        with tf.name_scope("Conv_2") :
+    
+            conv14 = tf.nn.conv2d(tf.pad(conv13,paddings = [[0,0],[32,32],[32,32],[0,0]],mode = 'SYMMETRIC'),right_3_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv14 = tf.nn.bias_add(conv14,right_3_2_conv_bias,name = "bias_add")
+            conv14 = tf.layers.batch_normalization(conv14,training = bool_train,name = "norm_14")
+            conv14 =  tf.nn.leaky_relu(conv14,name = "activation")        
+            variable_summaries_weights_biases(right_3_2_conv)
+            variable_summaries_weights_biases(right_3_2_conv_bias)
+            conv14_obj = convolution(conv13.shape[1],conv13.shape[2],conv13.shape[3],right_3_2_conv.shape[0],right_3_2_conv.shape[1],right_3_2_conv.shape[3],3,3,conv13.shape[1],conv13.shape[2])                
+            de_conv14_obj = trans_convolve(None,True,conv14_obj.output_h,conv14_obj.output_w,conv14_obj.output_d,kernel_h = 2,kernel_w = 2,kernel_d = 128,stride_h = 2,stride_w = 2,padding = 'VALID')
+        
+        with tf.name_scope("Deconvolve") :    
+            de_conv14 = tf.nn.conv2d_transpose(conv14,right_3_3_deconv,output_shape = (tf.shape(X)[0],de_conv14_obj.output_h,de_conv14_obj.output_w,de_conv14_obj.output_d), strides = (1,2,2,1),padding = 'VALID',name = "deconv")
+            variable_summaries_weights_biases(right_3_3_deconv)    
+    
+    ### Right Branch 2nd layer ###
+    
+    with tf.name_scope("Merging") :
+        
+        merge3 = tf.concat([de_conv14,conv4],axis = 3,name = "merge")
+    
+    with tf.name_scope("Right_Branch_2nd_Layer"):
+  
+        with tf.name_scope("Conv_1") :     
+            conv15 = tf.nn.conv2d(tf.pad(merge3,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),right_2_1_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv15 = tf.nn.bias_add(conv15,right_2_1_conv_bias,name = "bias_add")
+            conv15 = tf.layers.batch_normalization(conv15,training = bool_train,name = "norm_15")
+            conv15 =  tf.nn.leaky_relu(conv15,name = "activation")
+            variable_summaries_weights_biases(right_2_1_conv)
+            variable_summaries_weights_biases(right_2_1_conv_bias)
+            
+        with tf.name_scope("Conv_2") :
+            conv16 = tf.nn.conv2d(tf.pad(conv15,paddings = [[0,0],[64,64],[64,64],[0,0]],mode = 'SYMMETRIC'),right_2_2_conv,(1,3,3,1),padding = 'VALID',name = "convolve")
+            conv16 = tf.nn.bias_add(conv16,right_2_2_conv_bias,name = "bias_add")
+            conv16 = tf.layers.batch_normalization(conv16,training = bool_train,name = "norm_16")
+            conv16 = tf.nn.leaky_relu(conv16,name = "activation")
+            variable_summaries_weights_biases(right_2_2_conv)
+            variable_summaries_weights_biases(right_2_2_conv_bias)
